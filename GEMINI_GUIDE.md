@@ -45,3 +45,5 @@
         7.  **반복:** 다음 Subtask에 대해 위 과정을 반복한다.
 
 ---
+
+백엔드 API 명세는 `curl https://hono-be.furychick0.workers.dev/api/openapi.json` 명령어로 확인할 수 있습니다.
