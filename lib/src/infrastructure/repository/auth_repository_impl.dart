@@ -47,7 +47,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<bool> checkNicknameAvailability(String nickname) async {
     final response = await client.get(
-      Uri.parse('$baseUrl/users/check-nickname?nickname=$nickname'),
+      Uri.parse('$baseUrl/users/check/nickname/$nickname'),
       headers: {'Content-Type': 'application/json'},
     );
 

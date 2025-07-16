@@ -58,7 +58,7 @@ void main() {
 
   group('checkNicknameAvailability', () {
     const nickname = 'testnick';
-    final uri = Uri.parse('$baseUrl/users/check-nickname?nickname=$nickname');
+    final uri = Uri.parse('$baseUrl/users/check/nickname/$nickname');
 
     test('닉네임 사용 가능 시 true를 반환해야 한다', () async {
       // Arrange
