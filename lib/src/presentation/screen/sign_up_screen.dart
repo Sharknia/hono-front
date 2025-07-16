@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotdeal_with_hono/src/presentation/provider/auth_provider.dart';
+import 'package:hotdeal_with_hono/src/presentation/state/sign_up_state.dart';
 import 'package:hotdeal_with_hono/src/presentation/theme/app_theme.dart';
+import 'package:hotdeal_with_hono/src/presentation/widget/custom_alert_dialog.dart';
 import 'package:hotdeal_with_hono/src/presentation/widget/custom_button.dart';
 import 'package:hotdeal_with_hono/src/presentation/widget/custom_text_field.dart';
 
@@ -14,22 +16,37 @@ class SignUpScreen extends ConsumerWidget {
     final nicknameController = TextEditingController();
     final passwordController = TextEditingController();
     final passwordCheckController = TextEditingController();
-
     final signUpState = ref.watch(signUpViewModelProvider);
+    final signUpViewModel = ref.read(signUpViewModelProvider.notifier);
 
-    ref.listen(signUpViewModelProvider, (previous, next) {
+    ref.listen<SignUpState>(signUpViewModelProvider, (previous, next) {
       if (next.token != null) {
-        // 회원가입 성공
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Sign up successful! Please log in.')),
+        showCustomDialog(
+          context: context,
+          dialogType: DialogType.success,
+          title: 'Success',
+          content: 'Sign up successful! Please log in.',
+          onConfirm: () => Navigator.of(context).pop(),
         );
-        Navigator.of(context).pop();
       }
-      if (next.error != null) {
-        // 에러 발생
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${next.error}')),
+      if (next.error != null && (previous?.error != next.error)) {
+        showCustomDialog(
+          context: context,
+          dialogType: DialogType.error,
+          title: 'Error',
+          content: next.error!,
         );
+      }
+      if (previous?.isCheckingNickname == true &&
+          next.isCheckingNickname == false) {
+        if (!next.isNicknameAvailable) {
+          showCustomDialog(
+            context: context,
+            dialogType: DialogType.error,
+            title: 'Nickname Check',
+            content: 'This nickname is already taken.',
+          );
+        }
       }
     });
 
@@ -48,6 +65,8 @@ class SignUpScreen extends ConsumerWidget {
               CustomTextField(
                 labelText: 'Email',
                 controller: emailController,
+                onChanged: signUpViewModel.validateEmail,
+                errorText: signUpState.emailError,
               ),
               const SizedBox(height: AppSpacing.p16),
               Row(
@@ -57,33 +76,33 @@ class SignUpScreen extends ConsumerWidget {
                     child: CustomTextField(
                       labelText: 'Nickname',
                       controller: nicknameController,
+                      onChanged: signUpViewModel.validateNickname,
+                      errorText: signUpState.nicknameError,
+                      enabled: !signUpState.isNicknameFixed,
                     ),
                   ),
                   const SizedBox(width: AppSpacing.p8),
                   Padding(
                     padding: const EdgeInsets.only(top: AppSpacing.p8),
                     child: CustomButton(
-                      onPressed: () {
-                        ref
-                            .read(signUpViewModelProvider.notifier)
-                            .checkNickname(nicknameController.text);
-                      },
+                      onPressed: signUpState.isNicknameFixed
+                          ? null
+                          : () {
+                              signUpViewModel
+                                  .checkNickname(nicknameController.text);
+                            },
                       text: 'Check',
+                      isLoading: signUpState.isCheckingNickname,
                     ),
                   )
                 ],
               ),
-              if (signUpState.isCheckingNickname)
-                const Padding(
-                  padding: EdgeInsets.only(top: AppSpacing.p8),
-                  child: Text('Checking...'),
-                )
-              else if (!signUpState.isNicknameAvailable)
+              if (signUpState.isNicknameFixed)
                 const Padding(
                   padding: EdgeInsets.only(top: AppSpacing.p8),
                   child: Text(
-                    'This nickname is already taken.',
-                    style: TextStyle(color: AppColors.error),
+                    'Nickname is available and fixed.',
+                    style: TextStyle(color: Colors.green),
                   ),
                 ),
               const SizedBox(height: AppSpacing.p16),
@@ -91,25 +110,33 @@ class SignUpScreen extends ConsumerWidget {
                 labelText: 'Password',
                 controller: passwordController,
                 obscureText: true,
+                onChanged: (password) => signUpViewModel.validatePassword(
+                    password, passwordCheckController.text),
+                errorText: signUpState.passwordError,
               ),
               const SizedBox(height: AppSpacing.p16),
               CustomTextField(
                 labelText: 'Confirm Password',
                 controller: passwordCheckController,
                 obscureText: true,
+                onChanged: (passwordCheck) => signUpViewModel.validatePassword(
+                    passwordController.text, passwordCheck),
+                errorText: signUpState.passwordError,
               ),
               const SizedBox(height: AppSpacing.p32),
               CustomButton(
                 text: 'Sign Up',
                 isLoading: signUpState.isLoading,
-                onPressed: () {
-                  ref.read(signUpViewModelProvider.notifier).signUp(
-                        email: emailController.text,
-                        password: passwordController.text,
-                        passwordCheck: passwordCheckController.text,
-                        nickname: nicknameController.text,
-                      );
-                },
+                onPressed: signUpState.isFormValid
+                    ? () {
+                        signUpViewModel.signUp(
+                          email: emailController.text,
+                          password: passwordController.text,
+                          passwordCheck: passwordCheckController.text,
+                          nickname: nicknameController.text,
+                        );
+                      }
+                    : null,
               ),
             ],
           ),
