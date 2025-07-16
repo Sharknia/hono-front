@@ -62,7 +62,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/fonts/Noto_Sans_KR/static/
+    - assets/
   fonts:
     - family: NotoSansKR
       fonts:

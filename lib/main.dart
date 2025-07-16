@@ -10,7 +10,7 @@ Future<void> main() async {
 
   // Load environment variables
   const env = String.fromEnvironment('ENV', defaultValue: 'local');
-  await dotenv.load(fileName: "assets/.env.$env");
+  await dotenv.load(fileName: ".env.$env");
   final baseUrl = dotenv.env['API_BASE_URL'];
   if (baseUrl == null) {
     throw Exception('API_BASE_URL is not defined in .env file');
