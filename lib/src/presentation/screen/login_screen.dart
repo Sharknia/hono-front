@@ -54,18 +54,32 @@ class LoginScreen extends ConsumerWidget {
               ),
               const SizedBox(height: AppSpacing.p32 * 2),
 
-              // Text Fields
-              CustomTextField(
-                key: const ValueKey('emailField'),
-                controller: emailController,
-                labelText: '이메일',
-              ),
-              const SizedBox(height: AppSpacing.p16),
-              CustomTextField(
-                key: const ValueKey('passwordField'),
-                controller: passwordController,
-                labelText: '비밀번호',
-                obscureText: true,
+              // Text Fields & Form
+              Form(
+                child: Column(
+                  children: [
+                    CustomTextField(
+                      key: const ValueKey('emailField'),
+                      controller: emailController,
+                      labelText: '이메일',
+                      textInputAction: TextInputAction.next,
+                    ),
+                    const SizedBox(height: AppSpacing.p16),
+                    CustomTextField(
+                      key: const ValueKey('passwordField'),
+                      controller: passwordController,
+                      labelText: '비밀번호',
+                      obscureText: true,
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (_) {
+                        ref.read(loginViewModelProvider.notifier).login(
+                              emailController.text,
+                              passwordController.text,
+                            );
+                      },
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: AppSpacing.p32),
 

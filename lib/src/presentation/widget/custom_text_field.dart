@@ -10,6 +10,8 @@ class CustomTextField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final String? errorText;
   final bool enabled;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
 
   const CustomTextField({
     super.key,
@@ -22,6 +24,8 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.errorText,
     this.enabled = true,
+    this.textInputAction,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -33,6 +37,8 @@ class CustomTextField extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       enabled: enabled,
+      textInputAction: textInputAction,
+      onFieldSubmitted: onFieldSubmitted,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
