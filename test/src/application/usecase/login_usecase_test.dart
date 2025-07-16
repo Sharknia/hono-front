@@ -20,7 +20,7 @@ void main() {
   group('LoginUseCase', () {
     const email = 'test@example.com';
     const password = 'password';
-    final token = Token(
+    final token = const Token(
       accessToken: 'test_access_token',
       refreshToken: 'test_refresh_token',
     );

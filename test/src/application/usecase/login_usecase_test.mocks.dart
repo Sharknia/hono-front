@@ -46,4 +46,45 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
             ),
           )
           as _i4.Future<_i2.Token>);
+
+  @override
+  _i4.Future<_i2.Token> signUp({
+    required String? email,
+    required String? password,
+    required String? nickname,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#signUp, [], {
+              #email: email,
+              #password: password,
+              #nickname: nickname,
+            }),
+            returnValue: _i4.Future<_i2.Token>.value(
+              _FakeToken_0(
+                this,
+                Invocation.method(#signUp, [], {
+                  #email: email,
+                  #password: password,
+                  #nickname: nickname,
+                }),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Token>);
+
+  @override
+  _i4.Future<bool> checkNicknameAvailability(String? nickname) =>
+      (super.noSuchMethod(
+            Invocation.method(#checkNicknameAvailability, [nickname]),
+            returnValue: _i4.Future<bool>.value(false),
+          )
+          as _i4.Future<bool>);
+
+  @override
+  _i4.Future<bool> checkEmailAvailability(String? email) =>
+      (super.noSuchMethod(
+            Invocation.method(#checkEmailAvailability, [email]),
+            returnValue: _i4.Future<bool>.value(false),
+          )
+          as _i4.Future<bool>);
 }

@@ -1,17 +1,14 @@
-class Token {
-  final String accessToken;
-  final String refreshToken;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Token({required this.accessToken, required this.refreshToken});
+part 'token.freezed.dart';
+part 'token.g.dart';
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Token &&
-          runtimeType == other.runtimeType &&
-          accessToken == other.accessToken &&
-          refreshToken == other.refreshToken;
+@freezed
+abstract class Token with _$Token {
+  const factory Token({
+    required String accessToken,
+    required String refreshToken,
+  }) = _Token;
 
-  @override
-  int get hashCode => accessToken.hashCode ^ refreshToken.hashCode;
+  factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
 }

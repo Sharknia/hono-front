@@ -296,7 +296,7 @@ $Res call({
 });
 
 
-
+$TokenCopyWith<$Res> get token;
 
 }
 /// @nodoc
@@ -316,7 +316,16 @@ as Token,
   ));
 }
 
-
+/// Create a copy of LoginState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TokenCopyWith<$Res> get token {
+  
+  return $TokenCopyWith<$Res>(_self.token, (value) {
+    return _then(_self.copyWith(token: value));
+  });
+}
 }
 
 /// @nodoc
