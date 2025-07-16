@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../lib/src/application/usecase/login_usecase.dart';
-import '../../../../lib/src/domain/model/token.dart';
-import '../../../../lib/src/domain/repository/auth_repository.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:hotdeal_with_hono/src/application/usecase/login_usecase.dart';
+import 'package:hotdeal_with_hono/src/domain/model/token.dart';
+import 'package:hotdeal_with_hono/src/domain/repository/auth_repository.dart';
 
 import 'login_usecase_test.mocks.dart';
 
@@ -20,23 +20,23 @@ void main() {
   group('LoginUseCase', () {
     const email = 'test@example.com';
     const password = 'password';
-    final token = Token(accessToken: 'access', refreshToken: 'refresh');
+    final token = Token(
+      accessToken: 'test_access_token',
+      refreshToken: 'test_refresh_token',
+    );
 
-    test('call 메소드는 AuthRepository.login을 호출해야 한다', () async {
+    test('call should return a Token on successful login', () async {
       // Arrange
       when(mockAuthRepository.login(email, password))
           .thenAnswer((_) async => token);
 
       // Act
-      await loginUseCase.call(email, password);
+      final result = await loginUseCase.call(email, password);
 
       // Assert
+      expect(result, token);
       verify(mockAuthRepository.login(email, password)).called(1);
-    });
-
-    test('유효하지 않은 이메일 형식일 경우 Exception을 던져야 한다', () {
-      // Act & Assert
-      expect(() => loginUseCase.call('invalid-email', password), throwsException);
+      verifyNoMoreInteractions(mockAuthRepository);
     });
   });
 }

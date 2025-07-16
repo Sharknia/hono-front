@@ -6,8 +6,10 @@ class LoginUseCase {
 
   LoginUseCase(this._authRepository);
 
-  Future<Token> call(String email, String password) {
-    // TODO: implement call
-    throw UnimplementedError();
+  Future<Token> call(String email, String password) async {
+    if (email.isEmpty || password.isEmpty) {
+      throw ArgumentError('Email and password cannot be empty');
+    }
+    return _authRepository.login(email, password);
   }
 }
