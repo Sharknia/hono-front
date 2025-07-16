@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotdeal_with_hono/src/presentation/provider/auth_provider.dart';
+import 'package:hotdeal_with_hono/src/presentation/screen/sign_up_screen.dart';
 import 'package:hotdeal_with_hono/src/presentation/state/login_state.dart';
 import 'package:hotdeal_with_hono/src/presentation/theme/app_theme.dart';
 import 'package:hotdeal_with_hono/src/presentation/widget/custom_button.dart';
@@ -81,6 +82,24 @@ class LoginScreen extends ConsumerWidget {
                 isLoading: loginState.maybeWhen(
                   loading: () => true,
                   orElse: () => false,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.p16),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignUpScreen(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Don't have an account? Sign Up",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: AppColors.primary),
                 ),
               ),
             ],

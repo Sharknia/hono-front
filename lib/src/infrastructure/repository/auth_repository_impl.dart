@@ -8,14 +8,14 @@ import 'package:http/http.dart' as http;
 
 class AuthRepositoryImpl implements AuthRepository {
   final http.Client client;
-  final String _baseUrl = 'https://hono-be.furychick0.workers.dev/api';
+  final String baseUrl;
 
-  AuthRepositoryImpl({required this.client});
+  AuthRepositoryImpl({required this.client, required this.baseUrl});
 
   @override
   Future<Token> login(String email, String password) async {
     final response = await client.post(
-      Uri.parse('$_baseUrl/auth/login'),
+      Uri.parse('$baseUrl/auth/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
@@ -30,7 +30,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<bool> checkEmailAvailability(String email) async {
     final response = await client.post(
-      Uri.parse('$_baseUrl/users/check-email'),
+      Uri.parse('$baseUrl/users/check-email'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email}),
     );
@@ -47,7 +47,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<bool> checkNicknameAvailability(String nickname) async {
     final response = await client.post(
-      Uri.parse('$_baseUrl/users/check-nickname'),
+      Uri.parse('$baseUrl/users/check-nickname'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'nickname': nickname}),
     );
@@ -67,7 +67,7 @@ class AuthRepositoryImpl implements AuthRepository {
       required String password,
       required String nickname}) async {
     final response = await client.post(
-      Uri.parse('$_baseUrl/auth/register'),
+      Uri.parse('$baseUrl/auth/register'),
       headers: {'Content-Type': 'application/json'},
       body:
           jsonEncode({'email': email, 'password': password, 'nickname': nickname}),

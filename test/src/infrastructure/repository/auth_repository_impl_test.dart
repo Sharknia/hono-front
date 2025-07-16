@@ -17,7 +17,7 @@ void main() {
 
   setUp(() {
     mockClient = MockClient();
-    authRepository = AuthRepositoryImpl(client: mockClient);
+    authRepository = AuthRepositoryImpl(client: mockClient, baseUrl: baseUrl);
   });
 
   group('login', () {

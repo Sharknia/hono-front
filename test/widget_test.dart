@@ -8,16 +8,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:hotdeal_with_hono/src/core/config.dart';
 import 'package:hotdeal_with_hono/main.dart';
 
 void main() {
-  testWidgets('Renders LoginScreen and finds welcome message', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const ProviderScope(child: MyApp()));
+  testWidgets('Renders LoginScreen and finds welcome message',
+      (WidgetTester tester) async {
+    // Arrange
+    final mockConfig = AppConfig(baseUrl: 'http://mock.api');
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          appConfigProvider.overrideWithValue(mockConfig),
+        ],
+        child: const MyApp(),
+      ),
+    );
 
     // Verify that LoginScreen is rendered and find the welcome message.
     expect(find.byType(Scaffold), findsOneWidget);
     expect(find.text('Welcome Back'), findsOneWidget);
   });
 }
+

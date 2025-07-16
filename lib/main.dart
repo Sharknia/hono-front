@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotdeal_with_hono/src/core/config.dart';
 import 'package:hotdeal_with_hono/src/presentation/screen/login_screen.dart';
 import 'package:hotdeal_with_hono/src/presentation/theme/app_theme.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Load environment variables
+  const env = String.fromEnvironment('ENV', defaultValue: 'local');
+  await dotenv.load(fileName: "assets/.env.$env");
+  final baseUrl = dotenv.env['API_BASE_URL'];
+  if (baseUrl == null) {
+    throw Exception('API_BASE_URL is not defined in .env file');
+  }
+
+  // Create config instance
+  final config = AppConfig(baseUrl: baseUrl);
+
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      overrides: [
+        appConfigProvider.overrideWithValue(config),
+      ],
+      child: const MyApp(),
     ),
   );
 }
