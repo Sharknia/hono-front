@@ -65,5 +65,30 @@ void main() {
       expect(signUpViewModel.debugState.token, token);
       expect(signUpViewModel.debugState.isLoading, false);
     });
+
+    test('signUp should update state correctly on failure', () async {
+      // Arrange
+      final exception = Exception('Email or nickname already exists');
+      when(mockSignUpUseCase.call(
+        email: email,
+        password: password,
+        passwordCheck: password,
+        nickname: nickname,
+      )).thenThrow(exception);
+
+      // Act
+      final future = signUpViewModel.signUp(
+        email: email,
+        password: password,
+        passwordCheck: password,
+        nickname: nickname,
+      );
+
+      // Assert
+      expect(signUpViewModel.debugState.isLoading, true);
+      await future;
+      expect(signUpViewModel.debugState.error, exception.toString());
+      expect(signUpViewModel.debugState.isLoading, false);
+    });
   });
 }

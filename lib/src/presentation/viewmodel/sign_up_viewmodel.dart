@@ -17,6 +17,7 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
     required String nickname,
   }) async {
     state = state.copyWith(isLoading: true, error: null);
+    await Future.delayed(Duration.zero); // 상태 변경이 반영될 시간을 줍니다.
     try {
       final token = await _signUpUseCase.call(
         email: email,

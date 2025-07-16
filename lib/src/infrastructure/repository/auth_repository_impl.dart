@@ -73,6 +73,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
     if (response.statusCode == 201) {
       return Token.fromJson(jsonDecode(response.body));
+    } else if (response.statusCode == 409) {
+      final data = jsonDecode(response.body);
+      throw Exception(data['error'] ?? 'Failed to sign up');
     } else {
       throw Exception('Failed to sign up');
     }

@@ -115,20 +115,21 @@ void main() {
       expect(result.accessToken, 'new_access_token');
     });
 
-    test('회원가입 실패 (409) 시 Exception을 던져야 한다', () async {
+    test('회원가입 실패 (409) 시 구체적인 Exception을 던져야 한다', () async {
       // Arrange
       when(mockClient.post(
         uri,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(
             {'email': email, 'password': password, 'nickname': nickname}),
-      )).thenAnswer((_) async => http.Response('Conflict', 409));
+      )).thenAnswer((_) async =>
+          http.Response('{"error":"Email or nickname already exists"}', 409));
 
       // Act & Assert
-      expect(
-          () => authRepository.signUp(
-              email: email, password: password, nickname: nickname),
-          throwsException);
+      final call = authRepository.signUp(
+          email: email, password: password, nickname: nickname);
+      expect(call, throwsA(isA<Exception>().having((e) => e.toString(),
+          'description', 'Exception: Email or nickname already exists')));
     });
   });
 
