@@ -60,6 +60,7 @@ class AppTypography {
 
 // 4. 앱 테마 (AppTheme)
 final appTheme = ThemeData(
+  fontFamily: 'NotoSansKR',
   primaryColor: AppColors.primary,
   scaffoldBackgroundColor: AppColors.background,
   colorScheme: const ColorScheme.light(

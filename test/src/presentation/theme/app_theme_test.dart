@@ -7,6 +7,7 @@ void main() {
     test('appTheme is configured correctly', () {
       // Assert
       expect(appTheme, isA<ThemeData>());
+      expect(appTheme.textTheme.bodyLarge?.fontFamily, 'NotoSansKR');
       expect(appTheme.primaryColor, AppColors.primary);
       expect(appTheme.scaffoldBackgroundColor, AppColors.background);
     });
@@ -36,3 +37,4 @@ void main() {
     });
   });
 }
+
