@@ -22,15 +22,15 @@ void main() {
     );
 
     // Assert
-    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == 'Email'), findsOneWidget);
-    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == 'Nickname'), findsOneWidget);
-    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == 'Password'), findsOneWidget);
-    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == 'Confirm Password'), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == '이메일'), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == '닉네임'), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == '비밀번호'), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == '비밀번호 확인'), findsOneWidget);
     
-    final checkButton = tester.widget<CustomButton>(find.byWidgetPredicate((widget) => widget is CustomButton && widget.text == 'Check'));
+    final checkButton = tester.widget<CustomButton>(find.byWidgetPredicate((widget) => widget is CustomButton && widget.text == '중복 확인'));
     expect(checkButton.onPressed, isNotNull);
 
-    final signUpButton = tester.widget<CustomButton>(find.byWidgetPredicate((widget) => widget is CustomButton && widget.text == 'Sign Up'));
+    final signUpButton = tester.widget<CustomButton>(find.byWidgetPredicate((widget) => widget is CustomButton && widget.text == '가입하기'));
     expect(signUpButton.onPressed, isNull); // Initially disabled
   });
 
@@ -46,8 +46,8 @@ void main() {
     );
 
     // Act
-    await tester.enterText(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == 'Email'), 'test@example.com');
-    await tester.enterText(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == 'Nickname'), 'testnick');
+    await tester.enterText(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == '이메일'), 'test@example.com');
+    await tester.enterText(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == '닉네임'), 'testnick');
     await tester.pump();
 
     // Assert

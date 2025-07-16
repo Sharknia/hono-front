@@ -85,7 +85,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign Up'),
+        title: const Text('회원가입'),
         backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
@@ -96,7 +96,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             children: [
               const SizedBox(height: AppSpacing.p32),
               CustomTextField(
-                labelText: 'Email',
+                labelText: '이메일',
                 controller: emailController,
                 onChanged: signUpViewModel.validateEmail,
                 errorText: signUpState.emailError,
@@ -107,7 +107,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 children: [
                   Expanded(
                     child: CustomTextField(
-                      labelText: 'Nickname',
+                      labelText: '닉네임',
                       controller: nicknameController,
                       onChanged: signUpViewModel.validateNickname,
                       errorText: signUpState.nicknameError,
@@ -124,7 +124,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               signUpViewModel
                                   .checkNickname(nicknameController.text);
                             },
-                      text: 'Check',
+                      text: '중복 확인',
                       isLoading: signUpState.isCheckingNickname,
                     ),
                   )
@@ -134,13 +134,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 const Padding(
                   padding: EdgeInsets.only(top: AppSpacing.p8),
                   child: Text(
-                    'Nickname is available and fixed.',
+                    '사용 가능한 닉네임입니다.',
                     style: TextStyle(color: Colors.green),
                   ),
                 ),
               const SizedBox(height: AppSpacing.p16),
               CustomTextField(
-                labelText: 'Password',
+                labelText: '비밀번호',
                 controller: passwordController,
                 obscureText: true,
                 onChanged: (password) => signUpViewModel.validatePassword(
@@ -149,7 +149,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               ),
               const SizedBox(height: AppSpacing.p16),
               CustomTextField(
-                labelText: 'Confirm Password',
+                labelText: '비밀번호 확인',
                 controller: passwordCheckController,
                 obscureText: true,
                 onChanged: (passwordCheck) => signUpViewModel.validatePassword(
@@ -158,7 +158,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               ),
               const SizedBox(height: AppSpacing.p32),
               CustomButton(
-                text: 'Sign Up',
+                text: '가입하기',
                 isLoading: signUpState.isLoading,
                 onPressed: signUpState.isFormValid
                     ? () {
