@@ -58,15 +58,14 @@ void main() {
 
   group('checkNicknameAvailability', () {
     const nickname = 'testnick';
-    final uri = Uri.parse('$baseUrl/users/check-nickname');
+    final uri = Uri.parse('$baseUrl/users/check-nickname?nickname=$nickname');
 
-    test('닉네임 사용 가능 시 true를 반환해야 한다 (204)', () async {
+    test('닉네임 사용 가능 시 true를 반환해야 한다', () async {
       // Arrange
-      when(mockClient.post(
+      when(mockClient.get(
         uri,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'nickname': nickname}),
-      )).thenAnswer((_) async => http.Response('', 204));
+      )).thenAnswer((_) async => http.Response('{"isAvailable":true}', 200));
 
       // Act
       final result = await authRepository.checkNicknameAvailability(nickname);
@@ -75,13 +74,12 @@ void main() {
       expect(result, isTrue);
     });
 
-    test('닉네임 중복 시 false를 반환해야 한다 (409)', () async {
+    test('닉네임 중복 시 false를 반환해야 한다', () async {
       // Arrange
-      when(mockClient.post(
+      when(mockClient.get(
         uri,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'nickname': nickname}),
-      )).thenAnswer((_) async => http.Response('', 409));
+      )).thenAnswer((_) async => http.Response('{"isAvailable":false}', 200));
 
       // Act
       final result = await authRepository.checkNicknameAvailability(nickname);

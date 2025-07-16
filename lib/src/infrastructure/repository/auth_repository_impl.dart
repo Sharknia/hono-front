@@ -46,16 +46,14 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> checkNicknameAvailability(String nickname) async {
-    final response = await client.post(
-      Uri.parse('$baseUrl/users/check-nickname'),
+    final response = await client.get(
+      Uri.parse('$baseUrl/users/check-nickname?nickname=$nickname'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'nickname': nickname}),
     );
 
-    if (response.statusCode == 204) {
-      return true;
-    } else if (response.statusCode == 409) {
-      return false;
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data['isAvailable'] ?? false;
     } else {
       throw Exception('Failed to check nickname availability');
     }
