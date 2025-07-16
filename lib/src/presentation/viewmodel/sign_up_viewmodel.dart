@@ -12,9 +12,9 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
 
   void validateEmail(String email) {
     if (email.isEmpty) {
-      state = state.copyWith(emailError: 'Email cannot be empty');
+      state = state.copyWith(emailError: '이메일을 입력해주세요.');
     } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
-      state = state.copyWith(emailError: 'Invalid email format');
+      state = state.copyWith(emailError: '올바른 이메일 형식이 아닙니다.');
     } else {
       state = state.copyWith(emailError: null);
     }
@@ -22,7 +22,7 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
 
   void validateNickname(String nickname) {
     if (nickname.isEmpty) {
-      state = state.copyWith(nicknameError: 'Nickname cannot be empty');
+      state = state.copyWith(nicknameError: '닉네임을 입력해주세요.');
     } else {
       state = state.copyWith(nicknameError: null);
     }
@@ -34,9 +34,9 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
 
   void validatePassword(String password, String passwordCheck) {
     if (password.isEmpty || passwordCheck.isEmpty) {
-      state = state.copyWith(passwordError: 'Password cannot be empty');
+      state = state.copyWith(passwordError: '비밀번호를 입력해주세요.');
     } else if (password != passwordCheck) {
-      state = state.copyWith(passwordError: 'Passwords do not match');
+      state = state.copyWith(passwordError: '비밀번호가 일치하지 않습니다.');
     } else {
       state = state.copyWith(passwordError: null);
     }

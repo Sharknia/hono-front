@@ -55,8 +55,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         final result = await showCustomDialog(
           context: context,
           dialogType: DialogType.success,
-          title: 'Success',
-          content: 'Sign up successful! Logging you in...',
+          title: '성공',
+          content: '회원가입이 완료되었습니다. 자동으로 로그인합니다.',
         );
         if (result == true && context.mounted) {
           Navigator.of(context).pop();
@@ -66,7 +66,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         showCustomDialog(
           context: context,
           dialogType: DialogType.error,
-          title: 'Error',
+          title: '오류',
           content: next.error!,
         );
       }
@@ -76,8 +76,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           showCustomDialog(
             context: context,
             dialogType: DialogType.error,
-            title: 'Nickname Check',
-            content: 'This nickname is already taken.',
+            title: '닉네임 확인',
+            content: '이미 사용 중인 닉네임입니다.',
           );
         }
       }

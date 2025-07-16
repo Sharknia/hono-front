@@ -24,12 +24,12 @@ void main() {
   group('Validation', () {
     test('validateEmail sets error for invalid email', () {
       signUpViewModel.validateEmail('invalid');
-      expect(signUpViewModel.debugState.emailError, 'Invalid email format');
+      expect(signUpViewModel.debugState.emailError, '올바른 이메일 형식이 아닙니다.');
     });
 
     test('validatePassword sets error for non-matching passwords', () {
       signUpViewModel.validatePassword('pass1', 'pass2');
-      expect(signUpViewModel.debugState.passwordError, 'Passwords do not match');
+      expect(signUpViewModel.debugState.passwordError, '비밀번호가 일치하지 않습니다.');
     });
   });
 
