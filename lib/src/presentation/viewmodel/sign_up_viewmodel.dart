@@ -71,7 +71,7 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
         passwordCheck: passwordCheck,
         nickname: nickname,
       );
-      state = state.copyWith(isLoading: false, token: token);
+      state = state.copyWith(isLoading: false, token: token, isSignUpSuccess: true);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }

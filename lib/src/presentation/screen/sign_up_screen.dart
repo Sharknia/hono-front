@@ -20,7 +20,7 @@ class SignUpScreen extends ConsumerWidget {
     final signUpViewModel = ref.read(signUpViewModelProvider.notifier);
 
     ref.listen<SignUpState>(signUpViewModelProvider, (previous, next) {
-      if (next.token != null) {
+      if (next.isSignUpSuccess) {
         showCustomDialog(
           context: context,
           dialogType: DialogType.success,

@@ -75,6 +75,7 @@ void main() {
       expect(signUpViewModel.debugState.isLoading, true);
       await future;
       expect(signUpViewModel.debugState.token, token);
+      expect(signUpViewModel.debugState.isSignUpSuccess, true);
       expect(signUpViewModel.debugState.isLoading, false);
     });
   });

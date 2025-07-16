@@ -16,6 +16,7 @@ abstract class SignUpState with _$SignUpState {
     String? nicknameError,
     // Form status
     @Default(false) bool isLoading,
+    @Default(false) bool isSignUpSuccess,
     Token? token,
     String? error,
   }) = _SignUpState;
