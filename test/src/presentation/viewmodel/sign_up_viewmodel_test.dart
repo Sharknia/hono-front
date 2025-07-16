@@ -61,7 +61,7 @@ void main() {
         password: password,
         passwordCheck: password,
         nickname: nickname,
-      )).thenAnswer((_) async => token);
+      )).thenAnswer((_) async {});
 
       // Act
       final future = signUpViewModel.signUp(
@@ -74,7 +74,6 @@ void main() {
       // Assert
       expect(signUpViewModel.debugState.isLoading, true);
       await future;
-      expect(signUpViewModel.debugState.token, token);
       expect(signUpViewModel.debugState.isSignUpSuccess, true);
       expect(signUpViewModel.debugState.isLoading, false);
     });

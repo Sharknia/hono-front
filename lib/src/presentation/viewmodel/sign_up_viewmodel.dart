@@ -65,13 +65,17 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
     state = state.copyWith(isLoading: true, error: null);
     await Future.delayed(Duration.zero);
     try {
-      final token = await _signUpUseCase.call(
+      await _signUpUseCase.call(
         email: email,
         password: password,
         passwordCheck: passwordCheck,
         nickname: nickname,
       );
-      state = state.copyWith(isLoading: false, token: token, isSignUpSuccess: true);
+      state = state.copyWith(
+          isLoading: false,
+          isSignUpSuccess: true,
+          email: email,
+          password: password);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }

@@ -95,24 +95,22 @@ void main() {
     const nickname = 'newnick';
     final uri = Uri.parse('$baseUrl/auth/register');
 
-    test('회원가입 성공 시 Token 객체를 반환해야 한다 (201)', () async {
+    test('회원가입 성공 시 정상적으로 완료되어야 한다 (201)', () async {
       // Arrange
       when(mockClient.post(
         uri,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(
             {'email': email, 'password': password, 'nickname': nickname}),
-      )).thenAnswer((_) async => http.Response(
-          '{"accessToken": "new_access_token", "refreshToken": "new_refresh_token"}',
-          201));
+      )).thenAnswer((_) async =>
+          http.Response('{"message":"User created successfully"}', 201));
 
       // Act
-      final result = await authRepository.signUp(
+      final call = authRepository.signUp(
           email: email, password: password, nickname: nickname);
 
       // Assert
-      expect(result, isA<Token>());
-      expect(result.accessToken, 'new_access_token');
+      await expectLater(call, completes);
     });
 
     test('회원가입 실패 (409) 시 구체적인 Exception을 던져야 한다', () async {

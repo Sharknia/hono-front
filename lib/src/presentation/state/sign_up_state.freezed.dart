@@ -17,7 +17,7 @@ mixin _$SignUpState {
 // Nickname check
  bool get isNicknameAvailable; bool get isCheckingNickname; bool get isNicknameFixed;// Validation
  String? get emailError; String? get passwordError; String? get nicknameError;// Form status
- bool get isLoading; bool get isSignUpSuccess; Token? get token; String? get error;
+ bool get isLoading; bool get isSignUpSuccess; String? get email; String? get password; Token? get token; String? get error;
 /// Create a copy of SignUpState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SignUpStateCopyWith<SignUpState> get copyWith => _$SignUpStateCopyWithImpl<Sign
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignUpState&&(identical(other.isNicknameAvailable, isNicknameAvailable) || other.isNicknameAvailable == isNicknameAvailable)&&(identical(other.isCheckingNickname, isCheckingNickname) || other.isCheckingNickname == isCheckingNickname)&&(identical(other.isNicknameFixed, isNicknameFixed) || other.isNicknameFixed == isNicknameFixed)&&(identical(other.emailError, emailError) || other.emailError == emailError)&&(identical(other.passwordError, passwordError) || other.passwordError == passwordError)&&(identical(other.nicknameError, nicknameError) || other.nicknameError == nicknameError)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSignUpSuccess, isSignUpSuccess) || other.isSignUpSuccess == isSignUpSuccess)&&(identical(other.token, token) || other.token == token)&&(identical(other.error, error) || other.error == error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignUpState&&(identical(other.isNicknameAvailable, isNicknameAvailable) || other.isNicknameAvailable == isNicknameAvailable)&&(identical(other.isCheckingNickname, isCheckingNickname) || other.isCheckingNickname == isCheckingNickname)&&(identical(other.isNicknameFixed, isNicknameFixed) || other.isNicknameFixed == isNicknameFixed)&&(identical(other.emailError, emailError) || other.emailError == emailError)&&(identical(other.passwordError, passwordError) || other.passwordError == passwordError)&&(identical(other.nicknameError, nicknameError) || other.nicknameError == nicknameError)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSignUpSuccess, isSignUpSuccess) || other.isSignUpSuccess == isSignUpSuccess)&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.token, token) || other.token == token)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isNicknameAvailable,isCheckingNickname,isNicknameFixed,emailError,passwordError,nicknameError,isLoading,isSignUpSuccess,token,error);
+int get hashCode => Object.hash(runtimeType,isNicknameAvailable,isCheckingNickname,isNicknameFixed,emailError,passwordError,nicknameError,isLoading,isSignUpSuccess,email,password,token,error);
 
 @override
 String toString() {
-  return 'SignUpState(isNicknameAvailable: $isNicknameAvailable, isCheckingNickname: $isCheckingNickname, isNicknameFixed: $isNicknameFixed, emailError: $emailError, passwordError: $passwordError, nicknameError: $nicknameError, isLoading: $isLoading, isSignUpSuccess: $isSignUpSuccess, token: $token, error: $error)';
+  return 'SignUpState(isNicknameAvailable: $isNicknameAvailable, isCheckingNickname: $isCheckingNickname, isNicknameFixed: $isNicknameFixed, emailError: $emailError, passwordError: $passwordError, nicknameError: $nicknameError, isLoading: $isLoading, isSignUpSuccess: $isSignUpSuccess, email: $email, password: $password, token: $token, error: $error)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SignUpStateCopyWith<$Res>  {
   factory $SignUpStateCopyWith(SignUpState value, $Res Function(SignUpState) _then) = _$SignUpStateCopyWithImpl;
 @useResult
 $Res call({
- bool isNicknameAvailable, bool isCheckingNickname, bool isNicknameFixed, String? emailError, String? passwordError, String? nicknameError, bool isLoading, bool isSignUpSuccess, Token? token, String? error
+ bool isNicknameAvailable, bool isCheckingNickname, bool isNicknameFixed, String? emailError, String? passwordError, String? nicknameError, bool isLoading, bool isSignUpSuccess, String? email, String? password, Token? token, String? error
 });
 
 
@@ -65,7 +65,7 @@ class _$SignUpStateCopyWithImpl<$Res>
 
 /// Create a copy of SignUpState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isNicknameAvailable = null,Object? isCheckingNickname = null,Object? isNicknameFixed = null,Object? emailError = freezed,Object? passwordError = freezed,Object? nicknameError = freezed,Object? isLoading = null,Object? isSignUpSuccess = null,Object? token = freezed,Object? error = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isNicknameAvailable = null,Object? isCheckingNickname = null,Object? isNicknameFixed = null,Object? emailError = freezed,Object? passwordError = freezed,Object? nicknameError = freezed,Object? isLoading = null,Object? isSignUpSuccess = null,Object? email = freezed,Object? password = freezed,Object? token = freezed,Object? error = freezed,}) {
   return _then(_self.copyWith(
 isNicknameAvailable: null == isNicknameAvailable ? _self.isNicknameAvailable : isNicknameAvailable // ignore: cast_nullable_to_non_nullable
 as bool,isCheckingNickname: null == isCheckingNickname ? _self.isCheckingNickname : isCheckingNickname // ignore: cast_nullable_to_non_nullable
@@ -75,7 +75,9 @@ as String?,passwordError: freezed == passwordError ? _self.passwordError : passw
 as String?,nicknameError: freezed == nicknameError ? _self.nicknameError : nicknameError // ignore: cast_nullable_to_non_nullable
 as String?,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isSignUpSuccess: null == isSignUpSuccess ? _self.isSignUpSuccess : isSignUpSuccess // ignore: cast_nullable_to_non_nullable
-as bool,token: freezed == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
+as bool,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,password: freezed == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
+as String?,token: freezed == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as Token?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -174,10 +176,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isNicknameAvailable,  bool isCheckingNickname,  bool isNicknameFixed,  String? emailError,  String? passwordError,  String? nicknameError,  bool isLoading,  bool isSignUpSuccess,  Token? token,  String? error)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isNicknameAvailable,  bool isCheckingNickname,  bool isNicknameFixed,  String? emailError,  String? passwordError,  String? nicknameError,  bool isLoading,  bool isSignUpSuccess,  String? email,  String? password,  Token? token,  String? error)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SignUpState() when $default != null:
-return $default(_that.isNicknameAvailable,_that.isCheckingNickname,_that.isNicknameFixed,_that.emailError,_that.passwordError,_that.nicknameError,_that.isLoading,_that.isSignUpSuccess,_that.token,_that.error);case _:
+return $default(_that.isNicknameAvailable,_that.isCheckingNickname,_that.isNicknameFixed,_that.emailError,_that.passwordError,_that.nicknameError,_that.isLoading,_that.isSignUpSuccess,_that.email,_that.password,_that.token,_that.error);case _:
   return orElse();
 
 }
@@ -195,10 +197,10 @@ return $default(_that.isNicknameAvailable,_that.isCheckingNickname,_that.isNickn
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isNicknameAvailable,  bool isCheckingNickname,  bool isNicknameFixed,  String? emailError,  String? passwordError,  String? nicknameError,  bool isLoading,  bool isSignUpSuccess,  Token? token,  String? error)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isNicknameAvailable,  bool isCheckingNickname,  bool isNicknameFixed,  String? emailError,  String? passwordError,  String? nicknameError,  bool isLoading,  bool isSignUpSuccess,  String? email,  String? password,  Token? token,  String? error)  $default,) {final _that = this;
 switch (_that) {
 case _SignUpState():
-return $default(_that.isNicknameAvailable,_that.isCheckingNickname,_that.isNicknameFixed,_that.emailError,_that.passwordError,_that.nicknameError,_that.isLoading,_that.isSignUpSuccess,_that.token,_that.error);case _:
+return $default(_that.isNicknameAvailable,_that.isCheckingNickname,_that.isNicknameFixed,_that.emailError,_that.passwordError,_that.nicknameError,_that.isLoading,_that.isSignUpSuccess,_that.email,_that.password,_that.token,_that.error);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -215,10 +217,10 @@ return $default(_that.isNicknameAvailable,_that.isCheckingNickname,_that.isNickn
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isNicknameAvailable,  bool isCheckingNickname,  bool isNicknameFixed,  String? emailError,  String? passwordError,  String? nicknameError,  bool isLoading,  bool isSignUpSuccess,  Token? token,  String? error)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isNicknameAvailable,  bool isCheckingNickname,  bool isNicknameFixed,  String? emailError,  String? passwordError,  String? nicknameError,  bool isLoading,  bool isSignUpSuccess,  String? email,  String? password,  Token? token,  String? error)?  $default,) {final _that = this;
 switch (_that) {
 case _SignUpState() when $default != null:
-return $default(_that.isNicknameAvailable,_that.isCheckingNickname,_that.isNicknameFixed,_that.emailError,_that.passwordError,_that.nicknameError,_that.isLoading,_that.isSignUpSuccess,_that.token,_that.error);case _:
+return $default(_that.isNicknameAvailable,_that.isCheckingNickname,_that.isNicknameFixed,_that.emailError,_that.passwordError,_that.nicknameError,_that.isLoading,_that.isSignUpSuccess,_that.email,_that.password,_that.token,_that.error);case _:
   return null;
 
 }
@@ -230,7 +232,7 @@ return $default(_that.isNicknameAvailable,_that.isCheckingNickname,_that.isNickn
 
 
 class _SignUpState extends SignUpState {
-  const _SignUpState({this.isNicknameAvailable = true, this.isCheckingNickname = false, this.isNicknameFixed = false, this.emailError, this.passwordError, this.nicknameError, this.isLoading = false, this.isSignUpSuccess = false, this.token, this.error}): super._();
+  const _SignUpState({this.isNicknameAvailable = true, this.isCheckingNickname = false, this.isNicknameFixed = false, this.emailError, this.passwordError, this.nicknameError, this.isLoading = false, this.isSignUpSuccess = false, this.email, this.password, this.token, this.error}): super._();
   
 
 // Nickname check
@@ -244,6 +246,8 @@ class _SignUpState extends SignUpState {
 // Form status
 @override@JsonKey() final  bool isLoading;
 @override@JsonKey() final  bool isSignUpSuccess;
+@override final  String? email;
+@override final  String? password;
 @override final  Token? token;
 @override final  String? error;
 
@@ -257,16 +261,16 @@ _$SignUpStateCopyWith<_SignUpState> get copyWith => __$SignUpStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignUpState&&(identical(other.isNicknameAvailable, isNicknameAvailable) || other.isNicknameAvailable == isNicknameAvailable)&&(identical(other.isCheckingNickname, isCheckingNickname) || other.isCheckingNickname == isCheckingNickname)&&(identical(other.isNicknameFixed, isNicknameFixed) || other.isNicknameFixed == isNicknameFixed)&&(identical(other.emailError, emailError) || other.emailError == emailError)&&(identical(other.passwordError, passwordError) || other.passwordError == passwordError)&&(identical(other.nicknameError, nicknameError) || other.nicknameError == nicknameError)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSignUpSuccess, isSignUpSuccess) || other.isSignUpSuccess == isSignUpSuccess)&&(identical(other.token, token) || other.token == token)&&(identical(other.error, error) || other.error == error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignUpState&&(identical(other.isNicknameAvailable, isNicknameAvailable) || other.isNicknameAvailable == isNicknameAvailable)&&(identical(other.isCheckingNickname, isCheckingNickname) || other.isCheckingNickname == isCheckingNickname)&&(identical(other.isNicknameFixed, isNicknameFixed) || other.isNicknameFixed == isNicknameFixed)&&(identical(other.emailError, emailError) || other.emailError == emailError)&&(identical(other.passwordError, passwordError) || other.passwordError == passwordError)&&(identical(other.nicknameError, nicknameError) || other.nicknameError == nicknameError)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSignUpSuccess, isSignUpSuccess) || other.isSignUpSuccess == isSignUpSuccess)&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password)&&(identical(other.token, token) || other.token == token)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isNicknameAvailable,isCheckingNickname,isNicknameFixed,emailError,passwordError,nicknameError,isLoading,isSignUpSuccess,token,error);
+int get hashCode => Object.hash(runtimeType,isNicknameAvailable,isCheckingNickname,isNicknameFixed,emailError,passwordError,nicknameError,isLoading,isSignUpSuccess,email,password,token,error);
 
 @override
 String toString() {
-  return 'SignUpState(isNicknameAvailable: $isNicknameAvailable, isCheckingNickname: $isCheckingNickname, isNicknameFixed: $isNicknameFixed, emailError: $emailError, passwordError: $passwordError, nicknameError: $nicknameError, isLoading: $isLoading, isSignUpSuccess: $isSignUpSuccess, token: $token, error: $error)';
+  return 'SignUpState(isNicknameAvailable: $isNicknameAvailable, isCheckingNickname: $isCheckingNickname, isNicknameFixed: $isNicknameFixed, emailError: $emailError, passwordError: $passwordError, nicknameError: $nicknameError, isLoading: $isLoading, isSignUpSuccess: $isSignUpSuccess, email: $email, password: $password, token: $token, error: $error)';
 }
 
 
@@ -277,7 +281,7 @@ abstract mixin class _$SignUpStateCopyWith<$Res> implements $SignUpStateCopyWith
   factory _$SignUpStateCopyWith(_SignUpState value, $Res Function(_SignUpState) _then) = __$SignUpStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isNicknameAvailable, bool isCheckingNickname, bool isNicknameFixed, String? emailError, String? passwordError, String? nicknameError, bool isLoading, bool isSignUpSuccess, Token? token, String? error
+ bool isNicknameAvailable, bool isCheckingNickname, bool isNicknameFixed, String? emailError, String? passwordError, String? nicknameError, bool isLoading, bool isSignUpSuccess, String? email, String? password, Token? token, String? error
 });
 
 
@@ -294,7 +298,7 @@ class __$SignUpStateCopyWithImpl<$Res>
 
 /// Create a copy of SignUpState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isNicknameAvailable = null,Object? isCheckingNickname = null,Object? isNicknameFixed = null,Object? emailError = freezed,Object? passwordError = freezed,Object? nicknameError = freezed,Object? isLoading = null,Object? isSignUpSuccess = null,Object? token = freezed,Object? error = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isNicknameAvailable = null,Object? isCheckingNickname = null,Object? isNicknameFixed = null,Object? emailError = freezed,Object? passwordError = freezed,Object? nicknameError = freezed,Object? isLoading = null,Object? isSignUpSuccess = null,Object? email = freezed,Object? password = freezed,Object? token = freezed,Object? error = freezed,}) {
   return _then(_SignUpState(
 isNicknameAvailable: null == isNicknameAvailable ? _self.isNicknameAvailable : isNicknameAvailable // ignore: cast_nullable_to_non_nullable
 as bool,isCheckingNickname: null == isCheckingNickname ? _self.isCheckingNickname : isCheckingNickname // ignore: cast_nullable_to_non_nullable
@@ -304,7 +308,9 @@ as String?,passwordError: freezed == passwordError ? _self.passwordError : passw
 as String?,nicknameError: freezed == nicknameError ? _self.nicknameError : nicknameError // ignore: cast_nullable_to_non_nullable
 as String?,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,isSignUpSuccess: null == isSignUpSuccess ? _self.isSignUpSuccess : isSignUpSuccess // ignore: cast_nullable_to_non_nullable
-as bool,token: freezed == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
+as bool,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,password: freezed == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
+as String?,token: freezed == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as Token?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

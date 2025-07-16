@@ -7,14 +7,12 @@ class CustomAlertDialog extends StatelessWidget {
   final DialogType dialogType;
   final String title;
   final String content;
-  final VoidCallback? onConfirm;
 
   const CustomAlertDialog({
     super.key,
     required this.dialogType,
     required this.title,
     required this.content,
-    this.onConfirm,
   });
 
   @override
@@ -33,10 +31,7 @@ class CustomAlertDialog extends StatelessWidget {
           ),
         TextButton(
           child: const Text('OK'),
-          onPressed: () {
-            Navigator.of(context).pop(true);
-            onConfirm?.call();
-          },
+          onPressed: () => Navigator.of(context).pop(true),
         ),
       ],
     );
@@ -49,7 +44,6 @@ Future<bool?> showCustomDialog({
   required DialogType dialogType,
   required String title,
   required String content,
-  VoidCallback? onConfirm,
 }) {
   return showDialog<bool>(
     context: context,
@@ -58,7 +52,6 @@ Future<bool?> showCustomDialog({
         dialogType: dialogType,
         title: title,
         content: content,
-        onConfirm: onConfirm,
       );
     },
   );

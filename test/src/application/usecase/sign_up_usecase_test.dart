@@ -25,16 +25,16 @@ void main() {
     refreshToken: 'test_refresh_token',
   );
 
-  test('should return a Token on successful sign up', () async {
+  test('should complete successfully on valid sign up', () async {
     // Arrange
     when(mockAuthRepository.signUp(
       email: email,
       password: password,
       nickname: nickname,
-    )).thenAnswer((_) async => token);
+    )).thenAnswer((_) async => {});
 
     // Act
-    final result = await signUpUseCase.call(
+    final call = signUpUseCase.call(
       email: email,
       password: password,
       passwordCheck: password,
@@ -42,7 +42,7 @@ void main() {
     );
 
     // Assert
-    expect(result, token);
+    await expectLater(call, completes);
     verify(mockAuthRepository.signUp(
       email: email,
       password: password,

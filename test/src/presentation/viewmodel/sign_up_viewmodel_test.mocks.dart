@@ -3,13 +3,12 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i3;
 
 import 'package:hotdeal_with_hono/src/application/usecase/check_nickname_usecase.dart'
-    as _i5;
+    as _i4;
 import 'package:hotdeal_with_hono/src/application/usecase/sign_up_usecase.dart'
-    as _i3;
-import 'package:hotdeal_with_hono/src/domain/model/token.dart' as _i2;
+    as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -26,21 +25,16 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeToken_0 extends _i1.SmartFake implements _i2.Token {
-  _FakeToken_0(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
 /// A class which mocks [SignUpUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSignUpUseCase extends _i1.Mock implements _i3.SignUpUseCase {
+class MockSignUpUseCase extends _i1.Mock implements _i2.SignUpUseCase {
   MockSignUpUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Token> call({
+  _i3.Future<void> call({
     required String? email,
     required String? password,
     required String? passwordCheck,
@@ -53,35 +47,26 @@ class MockSignUpUseCase extends _i1.Mock implements _i3.SignUpUseCase {
               #passwordCheck: passwordCheck,
               #nickname: nickname,
             }),
-            returnValue: _i4.Future<_i2.Token>.value(
-              _FakeToken_0(
-                this,
-                Invocation.method(#call, [], {
-                  #email: email,
-                  #password: password,
-                  #passwordCheck: passwordCheck,
-                  #nickname: nickname,
-                }),
-              ),
-            ),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
           )
-          as _i4.Future<_i2.Token>);
+          as _i3.Future<void>);
 }
 
 /// A class which mocks [CheckNicknameUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCheckNicknameUseCase extends _i1.Mock
-    implements _i5.CheckNicknameUseCase {
+    implements _i4.CheckNicknameUseCase {
   MockCheckNicknameUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<bool> call(String? nickname) =>
+  _i3.Future<bool> call(String? nickname) =>
       (super.noSuchMethod(
             Invocation.method(#call, [nickname]),
-            returnValue: _i4.Future<bool>.value(false),
+            returnValue: _i3.Future<bool>.value(false),
           )
-          as _i4.Future<bool>);
+          as _i3.Future<bool>);
 }

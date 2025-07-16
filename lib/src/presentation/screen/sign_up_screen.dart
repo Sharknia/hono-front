@@ -7,27 +7,60 @@ import 'package:hotdeal_with_hono/src/presentation/widget/custom_alert_dialog.da
 import 'package:hotdeal_with_hono/src/presentation/widget/custom_button.dart';
 import 'package:hotdeal_with_hono/src/presentation/widget/custom_text_field.dart';
 
-class SignUpScreen extends ConsumerWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final emailController = TextEditingController();
-    final nicknameController = TextEditingController();
-    final passwordController = TextEditingController();
-    final passwordCheckController = TextEditingController();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+  late final TextEditingController emailController;
+  late final TextEditingController nicknameController;
+  late final TextEditingController passwordController;
+  late final TextEditingController passwordCheckController;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+    nicknameController = TextEditingController();
+    passwordController = TextEditingController();
+    passwordCheckController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    nicknameController.dispose();
+    passwordController.dispose();
+    passwordCheckController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final signUpState = ref.watch(signUpViewModelProvider);
     final signUpViewModel = ref.read(signUpViewModelProvider.notifier);
 
-    ref.listen<SignUpState>(signUpViewModelProvider, (previous, next) {
-      if (next.isSignUpSuccess) {
-        showCustomDialog(
+    ref.listen<SignUpState>(signUpViewModelProvider, (previous, next) async {
+      if (next.isSignUpSuccess &&
+          next.email != null &&
+          next.password != null) {
+        // Auto-login after successful sign-up
+        ref
+            .read(loginViewModelProvider.notifier)
+            .login(next.email!, next.password!);
+        
+        final result = await showCustomDialog(
           context: context,
           dialogType: DialogType.success,
           title: 'Success',
-          content: 'Sign up successful! Please log in.',
-          onConfirm: () => Navigator.of(context).pop(),
+          content: 'Sign up successful! Logging you in...',
         );
+        if (result == true && context.mounted) {
+          Navigator.of(context).pop();
+        }
       }
       if (next.error != null && (previous?.error != next.error)) {
         showCustomDialog(
