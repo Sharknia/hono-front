@@ -1,61 +1,72 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:hotdeal_with_hono/src/application/usecase/login_usecase.dart';
 import 'package:hotdeal_with_hono/src/domain/model/token.dart';
+import 'package:hotdeal_with_hono/src/infrastructure/service/token_storage_service.dart';
 import 'package:hotdeal_with_hono/src/presentation/state/login_state.dart';
 import 'package:hotdeal_with_hono/src/presentation/viewmodel/login_viewmodel.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
 import 'login_viewmodel_test.mocks.dart';
 
-@GenerateMocks([LoginUseCase])
+@GenerateMocks([LoginUseCase, TokenStorageService])
 void main() {
   late LoginViewModel loginViewModel;
   late MockLoginUseCase mockLoginUseCase;
+  late MockTokenStorageService mockTokenStorageService;
 
   setUp(() {
     mockLoginUseCase = MockLoginUseCase();
-    loginViewModel = LoginViewModel(mockLoginUseCase);
+    mockTokenStorageService = MockTokenStorageService();
+    loginViewModel = LoginViewModel(mockLoginUseCase, mockTokenStorageService);
   });
 
-  group('LoginViewModel', () {
-    const email = 'test@example.com';
-    const password = 'password';
-    final token = const Token(
-      accessToken: 'test_access_token',
-      refreshToken: 'test_refresh_token',
-    );
-    final exception = Exception('Failed to login');
+  test('초기 상태는 LoginState.initial() 이어야 한다', () {
+    expect(loginViewModel.debugState, const LoginState.initial());
+  });
 
-    test('초기 상태는 LoginState.initial 이어야 한다', () {
-      expect(loginViewModel.state, const LoginState.initial());
-    });
+  group('login', () {
+    const testEmail = 'test@test.com';
+    const testPassword = 'password';
+    final testToken =
+        Token(accessToken: 'test_token', refreshToken: 'refresh_token');
 
-    test('로그인 성공 시 상태가 loading -> success 순으로 변경되어야 한다', () async {
+    test('로그인 성공 시, 상태는 LoginState.success(token)가 되어야 한다', () async {
       // Arrange
-      when(mockLoginUseCase.call(email, password))
-          .thenAnswer((_) async => token);
+      when(mockLoginUseCase.call(testEmail, testPassword))
+          .thenAnswer((_) async => testToken);
+      when(mockTokenStorageService.saveTokens(
+              accessToken: anyNamed('accessToken'),
+              refreshToken: anyNamed('refreshToken')))
+          .thenAnswer((_) async {});
 
       // Act
-      final future = loginViewModel.login(email, password);
+      final future = loginViewModel.login(testEmail, testPassword);
 
       // Assert
-      expect(loginViewModel.state, const LoginState.loading());
+      expect(loginViewModel.debugState, const LoginState.loading());
       await future;
-      expect(loginViewModel.state, LoginState.success(token));
+      expect(loginViewModel.debugState, LoginState.success(testToken));
+      verify(mockTokenStorageService.saveTokens(
+        accessToken: testToken.accessToken,
+        refreshToken: testToken.refreshToken,
+      )).called(1);
     });
 
-    test('로그인 실패 시 상태가 loading -> error 순으로 변경되어야 한다', () async {
+    test('로그인 실패 시, 상태는 LoginState.error(message)가 되어야 한다', () async {
       // Arrange
-      when(mockLoginUseCase.call(email, password)).thenThrow(exception);
+      final exception = Exception('Failed to login');
+      when(mockLoginUseCase.call(testEmail, testPassword))
+          .thenThrow(exception);
 
       // Act
-      final future = loginViewModel.login(email, password);
+      final future = loginViewModel.login(testEmail, testPassword);
 
       // Assert
-      expect(loginViewModel.state, const LoginState.loading());
+      expect(loginViewModel.debugState, const LoginState.loading());
       await future;
-      expect(loginViewModel.state, LoginState.error(exception.toString()));
+      expect(loginViewModel.debugState, LoginState.error(exception.toString()));
     });
   });
 }
+

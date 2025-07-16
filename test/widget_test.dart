@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hotdeal_with_hono/src/core/config.dart';
-import 'package:hotdeal_with_hono/main.dart';
+import 'package:hotdeal_with_hono/src/presentation/screen/splash_screen.dart';
 
 void main() {
-  testWidgets('Renders LoginScreen and finds welcome message',
+  testWidgets('Renders SplashScreen and finds loading message',
       (WidgetTester tester) async {
     // Arrange
     final mockConfig = AppConfig(baseUrl: 'http://mock.api');
@@ -21,13 +21,15 @@ void main() {
         overrides: [
           appConfigProvider.overrideWithValue(mockConfig),
         ],
-        child: const MyApp(),
+        child: const MaterialApp(
+          home: SplashScreen(),
+        ),
       ),
     );
 
-    // Verify that LoginScreen is rendered and find the welcome message.
-    expect(find.byType(Scaffold), findsOneWidget);
-    expect(find.text('다시 오셨네요!'), findsOneWidget);
+    // Assert
+    expect(find.byType(SplashScreen), findsOneWidget);
+    expect(find.text('잠시만 기다려주세요...'), findsOneWidget);
   });
 }
 

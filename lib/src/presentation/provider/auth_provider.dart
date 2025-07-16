@@ -4,6 +4,7 @@ import 'package:hotdeal_with_hono/src/application/usecase/login_usecase.dart';
 import 'package:hotdeal_with_hono/src/application/usecase/sign_up_usecase.dart';
 import 'package:hotdeal_with_hono/src/core/config.dart';
 import 'package:hotdeal_with_hono/src/infrastructure/repository/auth_repository_impl.dart';
+import 'package:hotdeal_with_hono/src/infrastructure/service/token_storage_service.dart';
 import 'package:hotdeal_with_hono/src/presentation/state/login_state.dart';
 import 'package:hotdeal_with_hono/src/presentation/state/sign_up_state.dart';
 import 'package:hotdeal_with_hono/src/presentation/viewmodel/login_viewmodel.dart';
@@ -30,11 +31,13 @@ final checkNicknameUseCaseProvider = Provider(
 // Presentation
 final loginViewModelProvider =
     StateNotifierProvider<LoginViewModel, LoginState>((ref) {
-  return LoginViewModel(ref.watch(loginUseCaseProvider));
+  final loginUseCase = ref.watch(loginUseCaseProvider);
+  return LoginViewModel(loginUseCase, TokenStorageService());
 });
 
 final signUpViewModelProvider =
     StateNotifierProvider<SignUpViewModel, SignUpState>((ref) {
+  final signUpUseCase = ref.watch(signUpUseCaseProvider);
   return SignUpViewModel(
     ref.watch(signUpUseCaseProvider),
     ref.watch(checkNicknameUseCaseProvider),

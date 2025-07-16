@@ -8,6 +8,8 @@ import 'dart:async' as _i4;
 import 'package:hotdeal_with_hono/src/application/usecase/login_usecase.dart'
     as _i3;
 import 'package:hotdeal_with_hono/src/domain/model/token.dart' as _i2;
+import 'package:hotdeal_with_hono/src/infrastructure/service/token_storage_service.dart'
+    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -46,4 +48,54 @@ class MockLoginUseCase extends _i1.Mock implements _i3.LoginUseCase {
             ),
           )
           as _i4.Future<_i2.Token>);
+}
+
+/// A class which mocks [TokenStorageService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTokenStorageService extends _i1.Mock
+    implements _i5.TokenStorageService {
+  MockTokenStorageService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<void> saveTokens({
+    required String? accessToken,
+    required String? refreshToken,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveTokens, [], {
+              #accessToken: accessToken,
+              #refreshToken: refreshToken,
+            }),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
+
+  @override
+  _i4.Future<String?> getAccessToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#getAccessToken, []),
+            returnValue: _i4.Future<String?>.value(),
+          )
+          as _i4.Future<String?>);
+
+  @override
+  _i4.Future<String?> getRefreshToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#getRefreshToken, []),
+            returnValue: _i4.Future<String?>.value(),
+          )
+          as _i4.Future<String?>);
+
+  @override
+  _i4.Future<void> deleteAllTokens() =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteAllTokens, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 }
