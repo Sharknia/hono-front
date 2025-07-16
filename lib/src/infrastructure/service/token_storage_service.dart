@@ -1,23 +1,25 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final tokenStorageServiceProvider = Provider<TokenStorageService>((ref) {
-  return TokenStorageService();
+  // This is okay for the app, but for tests we will override this.
+  return TokenStorageService(
+    secureStorage: const FlutterSecureStorage(),
+    sharedPreferences: SharedPreferences.getInstance(),
+  );
 });
 
 class TokenStorageService {
-  final FlutterSecureStorage _storage;
+  final FlutterSecureStorage _secureStorage;
+  final Future<SharedPreferences> _sharedPreferences;
 
-  // Private constructor for singleton
-  TokenStorageService._(this._storage);
-
-  // Singleton instance
-  static final TokenStorageService _instance = TokenStorageService._(const FlutterSecureStorage());
-
-  // Factory constructor to return the singleton instance
-  factory TokenStorageService() {
-    return _instance;
-  }
+  TokenStorageService({
+    required FlutterSecureStorage secureStorage,
+    required Future<SharedPreferences> sharedPreferences,
+  })  : _secureStorage = secureStorage,
+        _sharedPreferences = sharedPreferences;
 
   static const String _accessTokenKey = 'accessToken';
   static const String _refreshTokenKey = 'refreshToken';
@@ -26,20 +28,33 @@ class TokenStorageService {
     required String accessToken,
     required String refreshToken,
   }) async {
-    await _storage.write(key: _accessTokenKey, value: accessToken);
-    await _storage.write(key: _refreshTokenKey, value: refreshToken);
+    if (kIsWeb) {
+      final prefs = await _sharedPreferences;
+      await prefs.setString(_accessTokenKey, accessToken);
+      await prefs.setString(_refreshTokenKey, refreshToken);
+    } else {
+      await _secureStorage.write(key: _accessTokenKey, value: accessToken);
+      await _secureStorage.write(key: _refreshTokenKey, value: refreshToken);
+    }
   }
 
   Future<String?> getAccessToken() async {
-    return await _storage.read(key: _accessTokenKey);
-  }
-
-  Future<String?> getRefreshToken() async {
-    return await _storage.read(key: _refreshTokenKey);
+    if (kIsWeb) {
+      final prefs = await _sharedPreferences;
+      return prefs.getString(_accessTokenKey);
+    } else {
+      return await _secureStorage.read(key: _accessTokenKey);
+    }
   }
 
   Future<void> deleteAllTokens() async {
-    await _storage.delete(key: _accessTokenKey);
-    await _storage.delete(key: _refreshTokenKey);
+    if (kIsWeb) {
+      final prefs = await _sharedPreferences;
+      await prefs.remove(_accessTokenKey);
+      await prefs.remove(_refreshTokenKey);
+    } else {
+      await _secureStorage.delete(key: _accessTokenKey);
+      await _secureStorage.delete(key: _refreshTokenKey);
+    }
   }
 }

@@ -83,14 +83,6 @@ class MockTokenStorageService extends _i1.Mock
           as _i4.Future<String?>);
 
   @override
-  _i4.Future<String?> getRefreshToken() =>
-      (super.noSuchMethod(
-            Invocation.method(#getRefreshToken, []),
-            returnValue: _i4.Future<String?>.value(),
-          )
-          as _i4.Future<String?>);
-
-  @override
   _i4.Future<void> deleteAllTokens() =>
       (super.noSuchMethod(
             Invocation.method(#deleteAllTokens, []),

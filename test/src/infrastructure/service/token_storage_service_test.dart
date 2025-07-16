@@ -2,41 +2,32 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hotdeal_with_hono/src/infrastructure/service/token_storage_service.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'token_storage_service_test.mocks.dart';
+
+@GenerateMocks([FlutterSecureStorage, SharedPreferences])
 void main() {
-  group('TokenStorageService', () {
+  group('TokenStorageService (Mobile)', () {
     late TokenStorageService tokenStorageService;
-    final Map<String, String> mockValues = {};
+    late MockFlutterSecureStorage mockFlutterSecureStorage;
 
     setUp(() {
-      TestWidgetsFlutterBinding.ensureInitialized();
-      // Mock the storage for testing
-      const MethodChannel('plugins.it_nomads.com/flutter_secure_storage')
-          .setMockMethodCallHandler((MethodCall methodCall) async {
-        if (methodCall.method == 'read') {
-          return mockValues[methodCall.arguments['key']];
-        }
-        if (methodCall.method == 'write') {
-          mockValues[methodCall.arguments['key']] = methodCall.arguments['value'];
-          return null;
-        }
-        if (methodCall.method == 'delete') {
-          mockValues.remove(methodCall.arguments['key']);
-          return null;
-        }
-        return null;
-      });
-      tokenStorageService = TokenStorageService();
+      mockFlutterSecureStorage = MockFlutterSecureStorage();
+      tokenStorageService = TokenStorageService(
+        secureStorage: mockFlutterSecureStorage,
+        sharedPreferences: Future.value(MockSharedPreferences()), // Not used
+      );
     });
 
-    tearDown(() {
-      mockValues.clear();
-    });
-
-    test('saveTokens saves access and refresh tokens', () async {
+    test('saveTokens calls FlutterSecureStorage.write', () async {
       // Arrange
-      const accessToken = 'test_access_token';
-      const refreshToken = 'test_refresh_token';
+      const accessToken = 'mobile_access_token';
+      const refreshToken = 'mobile_refresh_token';
+      when(mockFlutterSecureStorage.write(key: anyNamed('key'), value: anyNamed('value')))
+          .thenAnswer((_) async {});
 
       // Act
       await tokenStorageService.saveTokens(
@@ -45,33 +36,33 @@ void main() {
       );
 
       // Assert
-      expect(mockValues['accessToken'], accessToken);
-      expect(mockValues['refreshToken'], refreshToken);
+      verify(mockFlutterSecureStorage.write(key: 'accessToken', value: accessToken)).called(1);
+      verify(mockFlutterSecureStorage.write(key: 'refreshToken', value: refreshToken)).called(1);
     });
 
-    test('getAccessToken returns the saved access token', () async {
+    test('getAccessToken calls FlutterSecureStorage.read', () async {
       // Arrange
-      const accessToken = 'test_access_token';
-      mockValues['accessToken'] = accessToken;
+      const accessToken = 'mobile_access_token';
+      when(mockFlutterSecureStorage.read(key: anyNamed('key'))).thenAnswer((_) async => accessToken);
 
       // Act
       final result = await tokenStorageService.getAccessToken();
 
       // Assert
       expect(result, accessToken);
+      verify(mockFlutterSecureStorage.read(key: 'accessToken')).called(1);
     });
 
-    test('deleteAllTokens removes both tokens', () async {
+    test('deleteAllTokens calls FlutterSecureStorage.delete', () async {
       // Arrange
-      mockValues['accessToken'] = 'test_access_token';
-      mockValues['refreshToken'] = 'test_refresh_token';
+      when(mockFlutterSecureStorage.delete(key: anyNamed('key'))).thenAnswer((_) async {});
 
       // Act
       await tokenStorageService.deleteAllTokens();
 
       // Assert
-      expect(mockValues.containsKey('accessToken'), isFalse);
-      expect(mockValues.containsKey('refreshToken'), isFalse);
+      verify(mockFlutterSecureStorage.delete(key: 'accessToken')).called(1);
+      verify(mockFlutterSecureStorage.delete(key: 'refreshToken')).called(1);
     });
   });
 }

@@ -32,7 +32,8 @@ final checkNicknameUseCaseProvider = Provider(
 final loginViewModelProvider =
     StateNotifierProvider<LoginViewModel, LoginState>((ref) {
   final loginUseCase = ref.watch(loginUseCaseProvider);
-  return LoginViewModel(loginUseCase, TokenStorageService());
+  final tokenStorageService = ref.watch(tokenStorageServiceProvider);
+  return LoginViewModel(loginUseCase, tokenStorageService);
 });
 
 final signUpViewModelProvider =
