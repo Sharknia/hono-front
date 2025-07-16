@@ -21,9 +21,9 @@ void main() {
     );
 
     // Assert
-    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == 'Email'), findsOneWidget);
-    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == 'Password'), findsOneWidget);
-    expect(find.byType(CustomButton), findsOneWidget);
-    expect(find.text("Don't have an account? Sign Up"), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == '이메일'), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == '비밀번호'), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is CustomButton && widget.text == '로그인'), findsOneWidget);
+    expect(find.text("계정이 없으신가요? 회원가입"), findsOneWidget);
   });
 }

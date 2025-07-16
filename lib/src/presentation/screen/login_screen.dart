@@ -42,13 +42,13 @@ class LoginScreen extends ConsumerWidget {
             children: [
               // Logo or Welcome Message
               Text(
-                'Welcome Back',
+                '다시 오셨네요!',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.displayLarge,
               ),
               const SizedBox(height: AppSpacing.p8),
               Text(
-                'Sign in to continue',
+                '로그인하여 계속 진행하세요',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
@@ -58,13 +58,13 @@ class LoginScreen extends ConsumerWidget {
               CustomTextField(
                 key: const ValueKey('emailField'),
                 controller: emailController,
-                labelText: 'Email',
+                labelText: '이메일',
               ),
               const SizedBox(height: AppSpacing.p16),
               CustomTextField(
                 key: const ValueKey('passwordField'),
                 controller: passwordController,
-                labelText: 'Password',
+                labelText: '비밀번호',
                 obscureText: true,
               ),
               const SizedBox(height: AppSpacing.p32),
@@ -78,7 +78,7 @@ class LoginScreen extends ConsumerWidget {
                         passwordController.text,
                       );
                 },
-                text: 'Login',
+                text: '로그인',
                 isLoading: loginState.maybeWhen(
                   loading: () => true,
                   orElse: () => false,
@@ -95,7 +95,7 @@ class LoginScreen extends ConsumerWidget {
                   );
                 },
                 child: Text(
-                  "Don't have an account? Sign Up",
+                  "계정이 없으신가요? 회원가입",
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium

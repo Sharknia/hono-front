@@ -27,7 +27,7 @@ void main() {
 
     // Verify that LoginScreen is rendered and find the welcome message.
     expect(find.byType(Scaffold), findsOneWidget);
-    expect(find.text('Welcome Back'), findsOneWidget);
+    expect(find.text('다시 오셨네요!'), findsOneWidget);
   });
 }
 
