@@ -10,6 +10,52 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
   SignUpViewModel(this._signUpUseCase, this._checkNicknameUseCase)
       : super(const SignUpState());
 
+  void validateEmail(String email) {
+    if (email.isEmpty) {
+      state = state.copyWith(emailError: 'Email cannot be empty');
+    } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
+      state = state.copyWith(emailError: 'Invalid email format');
+    } else {
+      state = state.copyWith(emailError: null);
+    }
+  }
+
+  void validateNickname(String nickname) {
+    if (nickname.isEmpty) {
+      state = state.copyWith(nicknameError: 'Nickname cannot be empty');
+    } else {
+      state = state.copyWith(nicknameError: null);
+    }
+    // Reset nickname check on change
+    if (state.isNicknameFixed) {
+      state = state.copyWith(isNicknameFixed: false, isNicknameAvailable: true);
+    }
+  }
+
+  void validatePassword(String password, String passwordCheck) {
+    if (password.isEmpty || passwordCheck.isEmpty) {
+      state = state.copyWith(passwordError: 'Password cannot be empty');
+    } else if (password != passwordCheck) {
+      state = state.copyWith(passwordError: 'Passwords do not match');
+    } else {
+      state = state.copyWith(passwordError: null);
+    }
+  }
+
+  Future<void> checkNickname(String nickname) async {
+    state = state.copyWith(isCheckingNickname: true);
+    try {
+      final isAvailable = await _checkNicknameUseCase.call(nickname);
+      state = state.copyWith(
+        isCheckingNickname: false,
+        isNicknameAvailable: isAvailable,
+        isNicknameFixed: isAvailable, // Fix nickname if available
+      );
+    } catch (e) {
+      state = state.copyWith(isCheckingNickname: false);
+    }
+  }
+
   Future<void> signUp({
     required String email,
     required String password,
@@ -17,7 +63,7 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
     required String nickname,
   }) async {
     state = state.copyWith(isLoading: true, error: null);
-    await Future.delayed(Duration.zero); // 상태 변경이 반영될 시간을 줍니다.
+    await Future.delayed(Duration.zero);
     try {
       final token = await _signUpUseCase.call(
         email: email,
@@ -28,18 +74,6 @@ class SignUpViewModel extends StateNotifier<SignUpState> {
       state = state.copyWith(isLoading: false, token: token);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
-    }
-  }
-
-  Future<void> checkNickname(String nickname) async {
-    state = state.copyWith(isCheckingNickname: true);
-    try {
-      final isAvailable = await _checkNicknameUseCase.call(nickname);
-      state = state.copyWith(
-          isCheckingNickname: false, isNicknameAvailable: isAvailable);
-    } catch (e) {
-      state = state.copyWith(isCheckingNickname: false);
-      // Handle error, maybe show a message to the user
     }
   }
 }

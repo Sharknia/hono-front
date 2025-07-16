@@ -6,10 +6,22 @@ part 'sign_up_state.freezed.dart';
 @freezed
 abstract class SignUpState with _$SignUpState {
   const factory SignUpState({
+    // Nickname check
     @Default(true) bool isNicknameAvailable,
     @Default(false) bool isCheckingNickname,
+    @Default(false) bool isNicknameFixed,
+    // Validation
+    String? emailError,
+    String? passwordError,
+    String? nicknameError,
+    // Form status
     @Default(false) bool isLoading,
     Token? token,
     String? error,
   }) = _SignUpState;
+
+  const SignUpState._();
+
+  bool get isFormValid =>
+      emailError == null && passwordError == null && nicknameError == null && isNicknameFixed;
 }

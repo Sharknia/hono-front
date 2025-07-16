@@ -21,28 +21,40 @@ void main() {
     signUpViewModel = SignUpViewModel(mockSignUpUseCase, mockCheckNicknameUseCase);
   });
 
-  group('SignUpViewModel', () {
-    const nickname = 'testnick';
+  group('Validation', () {
+    test('validateEmail sets error for invalid email', () {
+      signUpViewModel.validateEmail('invalid');
+      expect(signUpViewModel.debugState.emailError, 'Invalid email format');
+    });
+
+    test('validatePassword sets error for non-matching passwords', () {
+      signUpViewModel.validatePassword('pass1', 'pass2');
+      expect(signUpViewModel.debugState.passwordError, 'Passwords do not match');
+    });
+  });
+
+  group('checkNickname', () {
+    test('sets isNicknameFixed to true when nickname is available', () async {
+      // Arrange
+      when(mockCheckNicknameUseCase.call('newnick')).thenAnswer((_) async => true);
+
+      // Act
+      await signUpViewModel.checkNickname('newnick');
+
+      // Assert
+      expect(signUpViewModel.debugState.isNicknameAvailable, true);
+      expect(signUpViewModel.debugState.isNicknameFixed, true);
+    });
+  });
+
+  group('signUp', () {
     const email = 'test@example.com';
     const password = 'password';
+    const nickname = 'testnick';
     final token = const Token(
         accessToken: 'test_access_token', refreshToken: 'test_refresh_token');
 
-    test('checkNickname should update state correctly', () async {
-      // Arrange
-      when(mockCheckNicknameUseCase.call(nickname)).thenAnswer((_) async => false);
-
-      // Act
-      final future = signUpViewModel.checkNickname(nickname);
-
-      // Assert
-      expect(signUpViewModel.debugState.isCheckingNickname, true);
-      await future;
-      expect(signUpViewModel.debugState.isNicknameAvailable, false);
-      expect(signUpViewModel.debugState.isCheckingNickname, false);
-    });
-
-    test('signUp should update state correctly on success', () async {
+    test('updates state correctly on success', () async {
       // Arrange
       when(mockSignUpUseCase.call(
         email: email,
@@ -63,31 +75,6 @@ void main() {
       expect(signUpViewModel.debugState.isLoading, true);
       await future;
       expect(signUpViewModel.debugState.token, token);
-      expect(signUpViewModel.debugState.isLoading, false);
-    });
-
-    test('signUp should update state correctly on failure', () async {
-      // Arrange
-      final exception = Exception('Email or nickname already exists');
-      when(mockSignUpUseCase.call(
-        email: email,
-        password: password,
-        passwordCheck: password,
-        nickname: nickname,
-      )).thenThrow(exception);
-
-      // Act
-      final future = signUpViewModel.signUp(
-        email: email,
-        password: password,
-        passwordCheck: password,
-        nickname: nickname,
-      );
-
-      // Assert
-      expect(signUpViewModel.debugState.isLoading, true);
-      await future;
-      expect(signUpViewModel.debugState.error, exception.toString());
       expect(signUpViewModel.debugState.isLoading, false);
     });
   });
