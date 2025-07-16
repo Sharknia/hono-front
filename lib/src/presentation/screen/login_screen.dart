@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotdeal_with_hono/src/presentation/provider/auth_provider.dart';
 import 'package:hotdeal_with_hono/src/presentation/state/login_state.dart';
+import 'package:hotdeal_with_hono/src/presentation/theme/app_theme.dart';
+import 'package:hotdeal_with_hono/src/presentation/widget/custom_button.dart';
+import 'package:hotdeal_with_hono/src/presentation/widget/custom_text_field.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
@@ -12,9 +15,7 @@ class LoginScreen extends ConsumerWidget {
     final passwordController = TextEditingController();
 
     ref.listen<LoginState>(loginViewModelProvider, (previous, next) {
-      next.when(
-        initial: () {},
-        loading: () {},
+      next.whenOrNull(
         success: (token) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Login Success: ${token.accessToken}')),
@@ -31,29 +32,44 @@ class LoginScreen extends ConsumerWidget {
     final loginState = ref.watch(loginViewModelProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              key: const ValueKey('emailField'),
-              controller: emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              key: const ValueKey('passwordField'),
-              controller: passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 24),
-            loginState.when(
-              initial: () => ElevatedButton(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.p24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Logo or Welcome Message
+              Text(
+                'Welcome Back',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+              const SizedBox(height: AppSpacing.p8),
+              Text(
+                'Sign in to continue',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: AppSpacing.p32 * 2),
+
+              // Text Fields
+              CustomTextField(
+                key: const ValueKey('emailField'),
+                controller: emailController,
+                labelText: 'Email',
+              ),
+              const SizedBox(height: AppSpacing.p16),
+              CustomTextField(
+                key: const ValueKey('passwordField'),
+                controller: passwordController,
+                labelText: 'Password',
+                obscureText: true,
+              ),
+              const SizedBox(height: AppSpacing.p32),
+
+              // Login Button
+              CustomButton(
                 key: const ValueKey('loginButton'),
                 onPressed: () {
                   ref.read(loginViewModelProvider.notifier).login(
@@ -61,26 +77,14 @@ class LoginScreen extends ConsumerWidget {
                         passwordController.text,
                       );
                 },
-                child: const Text('Login'),
+                text: 'Login',
+                isLoading: loginState.maybeWhen(
+                  loading: () => true,
+                  orElse: () => false,
+                ),
               ),
-              loading: () => const CircularProgressIndicator(),
-              success: (_) => ElevatedButton(
-                key: const ValueKey('loginButton'),
-                onPressed: null, // Prevent multiple logins
-                child: const Text('Login'),
-              ),
-              error: (_) => ElevatedButton(
-                key: const ValueKey('loginButton'),
-                onPressed: () {
-                  ref.read(loginViewModelProvider.notifier).login(
-                        emailController.text,
-                        passwordController.text,
-                      );
-                },
-                child: const Text('Retry Login'),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

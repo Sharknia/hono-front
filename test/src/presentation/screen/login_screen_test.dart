@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hotdeal_with_hono/src/presentation/screen/login_screen.dart';
+import 'package:hotdeal_with_hono/src/presentation/widget/custom_button.dart';
+import 'package:hotdeal_with_hono/src/presentation/widget/custom_text_field.dart';
 
 void main() {
-  testWidgets('LoginScreen has an email field, a password field, and a login button',
+  testWidgets('LoginScreen has custom text fields and a custom button',
       (WidgetTester tester) async {
     // Arrange
     await tester.pumpWidget(const ProviderScope(
@@ -12,13 +14,13 @@ void main() {
     ));
 
     // Act
-    final emailField = find.byKey(const ValueKey('emailField'));
-    final passwordField = find.byKey(const ValueKey('passwordField'));
-    final loginButton = find.byKey(const ValueKey('loginButton'));
+    final emailField = find.byType(CustomTextField).first;
+    final passwordField = find.byType(CustomTextField).last;
+    final loginButton = find.byType(CustomButton);
 
     // Assert
-    expect(emailField, findsOneWidget);
-    expect(passwordField, findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == 'Email'), findsOneWidget);
+    expect(find.byWidgetPredicate((widget) => widget is CustomTextField && widget.labelText == 'Password'), findsOneWidget);
     expect(loginButton, findsOneWidget);
   });
 }
