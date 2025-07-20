@@ -4,6 +4,8 @@ import 'package:hotdeal_tuum/data/api/api_client.dart';
 import 'package:hotdeal_tuum/data/api/services/auth_api.dart';
 import 'package:hotdeal_tuum/data/api/services/user_api.dart';
 import 'package:hotdeal_tuum/data/services/token_storage_service.dart';
+import 'package:hotdeal_tuum/domain/providers/auth/auth_notifier.dart';
+import 'package:hotdeal_tuum/domain/providers/auth/auth_state.dart';
 import 'package:hotdeal_tuum/domain/repositories/auth_repository.dart';
 import 'package:hotdeal_tuum/domain/repositories/user_repository.dart';
 
@@ -48,4 +50,10 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 final userRepositoryProvider = Provider<UserRepository>((ref) {
   final userApi = ref.watch(userApiProvider);
   return UserRepositoryImpl(userApi: userApi);
+});
+
+/// Provider for the AuthNotifier
+final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+  return AuthNotifier(authRepository: authRepository);
 });
