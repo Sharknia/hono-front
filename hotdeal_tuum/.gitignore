@@ -82,4 +82,4 @@
 /windows/runner/utils.h
 /windows/runner/win32_window.h
 /windows/runner/Generated.xcconfig
-/windows/CMakeLists.txt.user
+/windows/CMakeLists.txt.user.env
