@@ -76,7 +76,7 @@
             "description": "Create a secure token storage service using flutter_secure_storage to manage authentication tokens.",
             "dependencies": [],
             "details": "1. Create a TokenStorageService class in lib/data/services/token_storage_service.dart\n2. Implement methods for token management:\n   - saveTokens(String accessToken, String refreshToken, bool rememberMe)\n   - getAccessToken()\n   - getRefreshToken()\n   - clearTokens()\n   - isRememberMeEnabled()\n3. Use flutter_secure_storage for secure storage\n4. Implement logic to handle the rememberMe flag:\n   - If true, store tokens persistently\n   - If false, use in-memory storage or session-only storage\n5. Add proper error handling for storage operations",
-            "status": "in-progress",
+            "status": "done",
             "testStrategy": "1. Unit test each method with mock storage\n2. Test token saving and retrieval functionality\n3. Verify proper handling of the rememberMe flag\n4. Test error handling for storage failures"
           },
           {
@@ -245,7 +245,7 @@
     ],
     "metadata": {
       "created": "2025-07-20T12:51:01.944Z",
-      "updated": "2025-07-20T13:30:54.292Z",
+      "updated": "2025-07-20T13:42:25.477Z",
       "description": "Tasks for master context"
     }
   }

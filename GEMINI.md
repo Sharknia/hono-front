@@ -415,3 +415,14 @@ These commands make AI calls and may take up to a minute:
 ---
 
 _This guide ensures Claude Code has immediate access to Task Master's essential functionality for agentic development workflows._
+
+---
+## Testing Strategy
+
+To ensure efficient and maintainable development, this project adheres to the following testing policy:
+
+- **Primary Focus on Business Logic:** Automated testing will concentrate on pure business logic. This includes services, repositories, API clients, state management logic, and data transformation. Unit tests are mandatory for these components.
+- **Test-Driven Development (TDD) for Core Logic:** All new core business logic will be developed following a strict TDD (Test-Driven Development) cycle: Red (write a failing test), Green (write the minimum code to pass the test), Refactor (improve the code).
+- **Minimal UI Testing:** UI-level tests (e.g., Widget Tests in Flutter) will be kept to a minimum. We will avoid writing tests for simple UI rendering, component appearance, or basic navigation flows that are prone to frequent changes and have high maintenance costs.
+- **Manual Verification for UI:** The visual correctness and flow of the UI will primarily be verified through manual testing (e.g., running the app and interacting with it directly). This is considered more efficient for rapidly evolving front-end components.
+- **Exception for Foundational Setup:** A minimal set of "safety net" tests for foundational configurations (like the initial GoRouter setup) is acceptable to ensure the application's core wiring is correct. However, this practice will not be extended to individual screens or components.
