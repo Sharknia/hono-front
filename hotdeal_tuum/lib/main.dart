@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotdeal_tuum/core/observers/provider_logger.dart';
+import 'package:hotdeal_tuum/core/theme/app_theme.dart';
+import 'package:hotdeal_tuum/routes/app_router.dart';
+
+Future<void> main() async {
+  // Ensure that widgets are initialized
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Load environment variables based on the --dart-define flag
+  const env = String.fromEnvironment('ENV', defaultValue: 'local');
+  await dotenv.load(fileName: env == 'production' ? ".env.production" : ".env");
+
+  runApp(
+    ProviderScope(
+      observers: [ProviderLogger()],
+      child: const MyApp(),
+    ),
+  );
+}
+
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(goRouterProvider);
+
+    return MaterialApp.router(
+      title: 'Hotdeal Tuum',
+      theme: AppTheme.lightTheme,
+      debugShowCheckedModeBanner: false,
+      routerConfig: router,
+    );
+  }
+}

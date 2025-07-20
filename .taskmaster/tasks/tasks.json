@@ -1,0 +1,364 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Project Setup and Configuration",
+        "description": "Initialize Flutter project with cross-platform support for iOS, Android, and Web with proper folder structure following the UI and logic separation principle.",
+        "details": "1. Create a new Flutter project using the latest stable Flutter version\n2. Configure project for multi-platform support (iOS, Android, Web)\n3. Set up folder structure:\n   - lib/\n     - core/ (shared utilities, constants, themes)\n     - data/ (API clients, repositories)\n     - domain/ (models, business logic)\n     - presentation/ (screens, widgets)\n     - routes/ (navigation)\n4. Configure app theme with consistent colors, typography, and spacing\n5. Set up dependency injection for services\n6. Add essential dependencies in pubspec.yaml:\n   - flutter_secure_storage: for token storage\n   - riverpod: for state management\n   - dio: for API requests\n   - go_router: for navigation",
+        "testStrategy": "1. Verify project builds successfully on all target platforms\n2. Run Flutter Doctor to ensure all dependencies are correctly installed\n3. Validate that the project structure follows the separation of UI and logic principle\n4. Test basic navigation between placeholder screens",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize Flutter Project with Multi-platform Support",
+            "description": "Create a new Flutter project using the latest stable Flutter version and configure it for iOS, Android, and Web platforms.",
+            "dependencies": [],
+            "details": "1. Install Flutter SDK if not already installed\n2. Run `flutter create --org com.yourcompany app_name` to create a new project\n3. Verify platform support with `flutter devices`\n4. Configure iOS platform by updating Info.plist and podfile as needed\n5. Configure Android platform by updating build.gradle and AndroidManifest.xml\n6. Enable web support with `flutter config --enable-web`\n7. Test build on each platform with `flutter build ios`, `flutter build apk`, and `flutter build web`",
+            "status": "done",
+            "testStrategy": "1. Run `flutter doctor` to verify all dependencies are correctly installed\n2. Execute `flutter run -d [device]` for each target platform to ensure basic functionality\n3. Verify the project structure matches Flutter best practices"
+          },
+          {
+            "id": 2,
+            "title": "Set Up Project Folder Structure",
+            "description": "Establish a clean, organized folder structure following the separation of UI and logic principle with appropriate directories for different concerns.",
+            "dependencies": [],
+            "details": "1. Create the following directory structure in the lib folder:\n   - lib/core/ (for utilities, constants, themes)\n   - lib/data/ (for API clients, repositories)\n   - lib/domain/ (for models, business logic)\n   - lib/presentation/ (for screens, widgets)\n   - lib/routes/ (for navigation)\n2. Create placeholder files in each directory to maintain structure\n3. Add README.md files in each directory explaining its purpose\n4. Set up barrel files (index.dart) in each directory for cleaner imports",
+            "status": "done",
+            "testStrategy": "1. Review the project structure to ensure it follows the separation of UI and logic principle\n2. Verify that imports between modules follow the intended architecture\n3. Check that no circular dependencies exist in the project structure"
+          },
+          {
+            "id": 3,
+            "title": "Configure App Theme and Constants",
+            "description": "Set up a consistent theme system with colors, typography, spacing, and other design constants for the application.",
+            "dependencies": [],
+            "details": "1. Create lib/core/theme/app_theme.dart with ThemeData configuration\n2. Define color palette in lib/core/constants/colors.dart\n3. Set up typography styles in lib/core/constants/text_styles.dart\n4. Create spacing constants in lib/core/constants/dimensions.dart\n5. Implement theme extensions for custom theme properties if needed\n6. Create a theme provider that allows for future theme switching\n7. Apply the theme in the main.dart file",
+            "status": "done",
+            "testStrategy": "1. Create a theme test screen with various UI elements to verify theme consistency\n2. Test theme application across different widgets\n3. Verify responsive scaling of typography and spacing on different device sizes"
+          },
+          {
+            "id": 4,
+            "title": "Add Essential Dependencies and Configure Pubspec",
+            "description": "Add and configure all required third-party packages in pubspec.yaml for state management, navigation, API requests, and secure storage.",
+            "dependencies": [],
+            "details": "1. Update pubspec.yaml to add the following dependencies:\n   - flutter_riverpod: ^2.0.0 (or latest)\n   - go_router: ^6.0.0 (or latest)\n   - dio: ^5.0.0 (or latest)\n   - flutter_secure_storage: ^6.0.0 (or latest)\n   - json_annotation: ^4.7.0 (or latest)\n2. Add dev dependencies:\n   - build_runner\n   - json_serializable\n3. Run `flutter pub get` to install dependencies\n4. Create version constants for each package to track updates\n5. Add appropriate export statements in barrel files",
+            "status": "done",
+            "testStrategy": "1. Verify all dependencies are correctly resolved with `flutter pub get`\n2. Check for any conflicting dependencies\n3. Test basic functionality of each package with simple examples\n4. Ensure packages are compatible with all target platforms"
+          },
+          {
+            "id": 5,
+            "title": "Set Up Dependency Injection and Navigation",
+            "description": "Implement a dependency injection system using Riverpod and configure the navigation system with GoRouter.",
+            "dependencies": [],
+            "details": "1. Create lib/core/di/providers.dart to define all providers\n2. Set up a ProviderScope at the root of the application in main.dart\n3. Create service interfaces in appropriate directories\n4. Implement concrete service classes with provider bindings\n5. Configure GoRouter in lib/routes/app_router.dart\n6. Define route constants in lib/routes/route_constants.dart\n7. Create placeholder screens for initial navigation testing\n8. Implement navigation guards for authentication checks",
+            "status": "done",
+            "testStrategy": "1. Test provider initialization and dependency resolution\n2. Verify navigation between placeholder screens\n3. Test deep linking functionality\n4. Verify navigation guards correctly redirect based on authentication state\n5. Test that back navigation works as expected"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "API Client Implementation",
+        "description": "Create a centralized API client with interceptors for authentication token management and error handling.",
+        "details": "1. Create a Dio-based API client in lib/data/api/\n2. Implement interceptors for:\n   - Adding Authorization headers with access tokens\n   - Handling 401 errors and refreshing tokens automatically\n   - Standardizing error responses\n3. Create API endpoints as per the PRD specification:\n   - AuthApi: register, login, refresh, logout\n   - UserApi: checkNickname, checkEmail, getMe\n4. Implement token storage service using flutter_secure_storage:\n   - saveTokens(accessToken, refreshToken, rememberMe)\n   - getAccessToken()\n   - getRefreshToken()\n   - clearTokens()\n5. Create models for API requests and responses",
+        "testStrategy": "1. Unit test the API client with mock responses\n2. Test token refresh flow with expired tokens\n3. Verify proper error handling for different HTTP status codes\n4. Test token storage and retrieval functionality",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Token Storage Service",
+            "description": "Create a secure token storage service using flutter_secure_storage to manage authentication tokens.",
+            "dependencies": [],
+            "details": "1. Create a TokenStorageService class in lib/data/services/token_storage_service.dart\n2. Implement methods for token management:\n   - saveTokens(String accessToken, String refreshToken, bool rememberMe)\n   - getAccessToken()\n   - getRefreshToken()\n   - clearTokens()\n   - isRememberMeEnabled()\n3. Use flutter_secure_storage for secure storage\n4. Implement logic to handle the rememberMe flag:\n   - If true, store tokens persistently\n   - If false, use in-memory storage or session-only storage\n5. Add proper error handling for storage operations",
+            "status": "done",
+            "testStrategy": "1. Unit test each method with mock storage\n2. Test token saving and retrieval functionality\n3. Verify proper handling of the rememberMe flag\n4. Test error handling for storage failures"
+          },
+          {
+            "id": 2,
+            "title": "Create API Client with Base Configuration",
+            "description": "Implement a centralized Dio-based API client with base URL, timeout settings, and response type configuration.",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "1. Create ApiClient class in lib/data/api/api_client.dart\n2. Configure Dio instance with:\n   - Base URL from environment configuration\n   - Connection timeout (30 seconds)\n   - Receive timeout (30 seconds)\n   - Default headers (Content-Type: application/json)\n3. Implement singleton pattern for the API client\n4. Create a method to get the configured Dio instance\n5. Add logging for debug environments\n6. Create base response models for standardized API responses",
+            "status": "done",
+            "testStrategy": "1. Unit test client configuration\n2. Verify timeout settings are applied correctly\n3. Test singleton implementation\n4. Verify proper logging in debug mode"
+          },
+          {
+            "id": 3,
+            "title": "Implement Authentication Interceptors",
+            "description": "Create interceptors for handling authentication headers and token refresh logic.",
+            "dependencies": [
+              "2.1",
+              "2.2"
+            ],
+            "details": "1. Create AuthInterceptor class in lib/data/api/interceptors/\n2. Implement request interceptor to add Authorization header with access token\n3. Implement response interceptor to handle 401 Unauthorized errors:\n   - Catch 401 responses\n   - Attempt to refresh token using the refresh endpoint\n   - Retry the original request with new access token\n   - Handle refresh token failure (clear tokens and trigger logout)\n4. Integrate TokenStorageService to retrieve and update tokens\n5. Add error standardization to convert various error responses to a consistent format",
+            "status": "done",
+            "testStrategy": "1. Test adding Authorization headers to requests\n2. Test token refresh flow with expired tokens\n3. Verify proper error handling for different HTTP status codes\n4. Test retry mechanism after successful token refresh"
+          },
+          {
+            "id": 4,
+            "title": "Implement Authentication API Endpoints",
+            "description": "Create API service for authentication-related endpoints including register, login, refresh, and logout.",
+            "dependencies": [
+              "2.2",
+              "2.3"
+            ],
+            "details": "1. Create AuthApi class in lib/data/api/services/auth_api.dart\n2. Implement the following endpoints:\n   - register(String email, String password, String nickname)\n   - login(String email, String password, bool rememberMe)\n   - refreshToken(String refreshToken)\n   - logout()\n3. Create request and response models for each endpoint in lib/data/models/\n4. Implement proper error handling for each API call\n5. Connect with TokenStorageService to manage tokens after successful operations\n6. Add documentation for each method",
+            "status": "done",
+            "testStrategy": "1. Unit test each API endpoint with mock responses\n2. Test error handling for various error scenarios\n3. Verify proper token storage after login and refresh\n4. Test token clearing after logout"
+          },
+          {
+            "id": 5,
+            "title": "Implement User API Endpoints",
+            "description": "Create API service for user-related endpoints including profile retrieval and validation checks.",
+            "dependencies": [
+              "2.2",
+              "2.3"
+            ],
+            "details": "1. Create UserApi class in lib/data/api/services/user_api.dart\n2. Implement the following endpoints:\n   - checkNickname(String nickname)\n   - checkEmail(String email)\n   - getMe()\n3. Create request and response models for each endpoint in lib/data/models/\n4. Ensure authenticated endpoints use the configured interceptors\n5. Implement proper error handling and response parsing\n6. Add retry logic for potentially flaky endpoints\n7. Create user model to represent the authenticated user",
+            "status": "done",
+            "testStrategy": "1. Unit test each API endpoint with mock responses\n2. Test validation endpoints with various inputs\n3. Verify proper user model creation from API responses\n4. Test error handling for different response scenarios"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "State Management Setup with Riverpod",
+        "description": "Implement centralized state management using Riverpod to maintain a consistent data flow throughout the application.",
+        "details": "1. Set up Riverpod providers in lib/domain/providers/\n2. Create the following providers:\n   - authProvider: Manages authentication state (logged in/out)\n   - userProvider: Stores current user information\n   - tokenProvider: Handles token state and refresh logic\n3. Implement state notifiers for complex state:\n   - AuthNotifier: login, register, logout, checkAuthStatus\n   - UserNotifier: user data operations\n4. Create repository classes that connect providers with API client:\n   - AuthRepository\n   - UserRepository\n5. Set up provider scope at the application root",
+        "testStrategy": "1. Unit test providers with mock repositories\n2. Test state transitions for authentication flows\n3. Verify providers correctly respond to API results\n4. Test provider dependencies and state propagation",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Riverpod Provider Structure",
+            "description": "Create the basic Riverpod provider structure and configure the ProviderScope at the application root to enable state management throughout the app.",
+            "dependencies": [],
+            "details": "1. Add riverpod dependencies to pubspec.yaml (flutter_riverpod and riverpod_annotation)\n2. Create the provider directory structure at lib/domain/providers/\n3. Create a providers.dart barrel file to export all providers\n4. Wrap the MaterialApp with ProviderScope in main.dart\n5. Set up provider_logger.dart for debugging state changes in development mode",
+            "status": "done",
+            "testStrategy": "Verify ProviderScope is correctly set up by creating a simple test provider and confirming it can be accessed from different parts of the widget tree."
+          },
+          {
+            "id": 2,
+            "title": "Implement Repository Classes",
+            "description": "Create repository classes that will serve as the interface between data sources and the state management layer, handling API communication and data transformation.",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "1. Create lib/domain/repositories/auth_repository.dart with methods for login, register, logout, and token refresh\n2. Create lib/domain/repositories/user_repository.dart with methods for fetching and updating user data\n3. Implement repository interfaces with abstract classes\n4. Create concrete implementations that will connect to the API client\n5. Add error handling and response mapping to domain models",
+            "status": "done",
+            "testStrategy": "Unit test repositories with mock API clients to verify correct data transformation and error handling."
+          },
+          {
+            "id": 3,
+            "title": "Implement State Notifiers for Complex State",
+            "description": "Create StateNotifier classes to manage complex state transitions for authentication and user data, with proper state immutability.",
+            "dependencies": [
+              "3.2"
+            ],
+            "details": "1. Create lib/domain/providers/auth/auth_state.dart to define the authentication state data class\n2. Implement lib/domain/providers/auth/auth_notifier.dart with methods for login, register, logout, and checkAuthStatus\n3. Create lib/domain/providers/user/user_state.dart to define the user state data class\n4. Implement lib/domain/providers/user/user_notifier.dart with methods for user data operations\n5. Ensure all state classes are immutable and use copyWith for state updates",
+            "status": "done",
+            "testStrategy": "Test state transitions by mocking repository responses and verifying the notifier updates state correctly for success and error cases."
+          },
+          {
+            "id": 4,
+            "title": "Create Core Providers",
+            "description": "Implement the core providers for authentication, user information, and token management that will be used throughout the application.",
+            "dependencies": [
+              "3.3"
+            ],
+            "details": "1. Create lib/domain/providers/auth/auth_provider.dart that exposes the AuthNotifier\n2. Implement lib/domain/providers/user/user_provider.dart that depends on authProvider and exposes user information\n3. Create lib/domain/providers/token/token_provider.dart to handle access and refresh tokens\n4. Set up provider dependencies so that changes in auth state properly cascade to dependent providers\n5. Implement token persistence using secure storage",
+            "status": "done",
+            "testStrategy": "Test provider dependencies by verifying that changes in one provider (e.g., authProvider) correctly trigger updates in dependent providers (e.g., userProvider)."
+          },
+          {
+            "id": 5,
+            "title": "Implement Provider Consumers in UI",
+            "description": "Connect the UI layer to the state management system by implementing provider consumers in key widgets and testing the complete state management flow.",
+            "dependencies": [
+              "3.4"
+            ],
+            "details": "1. Create example widgets that consume the auth and user providers\n2. Implement a loading state handler that shows appropriate UI based on async provider states\n3. Create error handling widgets that display error messages from providers\n4. Set up provider refreshing for operations like pull-to-refresh\n5. Create a test page that demonstrates the complete state management flow",
+            "status": "done",
+            "testStrategy": "Integration test the complete state flow from UI interaction through providers to repositories and back, verifying UI updates correctly based on state changes."
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Navigation and Route Guards",
+        "description": "Implement application routing with authentication-based route guards to control access to protected pages.",
+        "details": "1. Set up GoRouter in lib/routes/\n2. Define routes for all pages:\n   - /login\n   - /register\n   - / (main page, protected)\n3. Implement route guard middleware:\n   - Create an AuthGuard class that checks for valid tokens\n   - Redirect unauthenticated users to login page\n   - Allow authenticated users to access protected routes\n4. Set up route transitions and navigation helpers\n5. Create a NavigationService for programmatic navigation\n6. Implement deep linking support for web platform",
+        "testStrategy": "1. Test route guard redirects with various authentication states\n2. Verify deep linking works correctly\n3. Test navigation between all routes\n4. Verify route history and back navigation works as expected",
+        "priority": "medium",
+        "dependencies": [
+          3
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up GoRouter configuration",
+            "description": "Create the router configuration file and define the basic router setup with route paths for all required pages.",
+            "dependencies": [],
+            "details": "Create a router_config.dart file in lib/routes/ directory. Set up GoRouter with initial routes for login, register, and main page. Define a routes list with GoRoute objects for each path. Include route names for easier reference. Set up error handling for unknown routes. Implement the RouterNotifier class that will later be used for authentication-based redirects.",
+            "status": "done",
+            "testStrategy": "Verify router initialization with basic routes. Test navigation to each defined route using route names and paths."
+          },
+          {
+            "id": 2,
+            "title": "Implement AuthGuard middleware",
+            "description": "Create an authentication guard mechanism that checks for valid tokens and controls access to protected routes.",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Create an auth_guard.dart file in lib/routes/ directory. Implement a redirect logic in the RouterNotifier that checks authentication state using the authProvider from Riverpod. Add logic to redirect unauthenticated users to the login page when they try to access protected routes. Implement logic to prevent authenticated users from accessing login/register pages. Connect the RouterNotifier to the GoRouter configuration created in the previous subtask.",
+            "status": "done",
+            "testStrategy": "Test redirects with various authentication states. Verify unauthenticated users are redirected to login. Verify authenticated users can access protected routes and are prevented from accessing login/register pages."
+          },
+          {
+            "id": 3,
+            "title": "Create NavigationService",
+            "description": "Implement a service for programmatic navigation throughout the application.",
+            "dependencies": [
+              "4.1",
+              "4.2"
+            ],
+            "details": "Create a navigation_service.dart file in lib/routes/ directory. Implement methods for common navigation actions: navigateTo(routeName), navigateToWithParams(routeName, params), goBack(), popUntil(routeName), etc. Create a Riverpod provider for the NavigationService to make it accessible throughout the app. Ensure the service uses the GoRouter instance for all navigation operations.",
+            "status": "done",
+            "testStrategy": "Test each navigation method with various scenarios. Verify navigation history is maintained correctly. Test navigation with and without parameters."
+          },
+          {
+            "id": 4,
+            "title": "Implement route transitions and animations",
+            "description": "Add smooth transitions between routes and implement custom page transitions for different navigation scenarios.",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Create a transitions.dart file in lib/routes/ directory. Implement custom page transitions (slide, fade, etc.) for different route types. Update the GoRouter configuration to use these custom transitions. Add transition duration settings. Implement different transitions for modal routes vs regular page navigation. Ensure transitions work correctly on all platforms (iOS, Android, Web).",
+            "status": "done",
+            "testStrategy": "Visually verify transitions between different routes. Test transition behavior on different platforms. Verify transition timing and animations match design specifications."
+          },
+          {
+            "id": 5,
+            "title": "Implement deep linking support",
+            "description": "Add support for deep linking to allow the app to handle external URLs and open specific pages.",
+            "dependencies": [
+              "4.1",
+              "4.2",
+              "4.3",
+              "4.4"
+            ],
+            "details": "Update AndroidManifest.xml and Info.plist to handle custom URL schemes. Configure web platform for deep linking in index.html. Create a deep_link_handler.dart in lib/routes/ to parse incoming links. Update the GoRouter configuration to handle deep link paths. Implement logic to process deep links based on authentication state (redirect to login if needed for protected routes). Test deep linking with various URL formats.",
+            "status": "done",
+            "testStrategy": "Test deep linking from external sources on all platforms. Verify authentication state is respected when handling deep links. Test deep links to protected and public routes. Verify URL parameters are correctly parsed and passed to routes."
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Registration Page Implementation",
+        "description": "Create the registration page with form validation, real-time nickname availability checking, and API integration.",
+        "details": "1. Create RegisterScreen widget in lib/presentation/screens/\n2. Implement form with TextFormField widgets for:\n   - Email (with email format validation)\n   - Nickname (with availability checking)\n   - Password (masked input)\n   - Password confirmation (masked input)\n3. Add registration button (disabled by default)\n4. Implement form validation logic:\n   - Email format validation using regex\n   - Real-time nickname validation using debounced API calls\n   - Password matching validation\n5. Connect form submission to AuthRepository\n6. Implement success/error handling with SnackBar notifications\n7. Add navigation to login page\n8. Ensure responsive layout for all screen sizes",
+        "testStrategy": "1. Unit test form validation logic\n2. Test real-time nickname validation with mock API\n3. Verify form submission with various input combinations\n4. Test error handling for different API responses\n5. Verify responsive layout on different screen sizes",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Login Page Implementation",
+        "description": "Create the login page with form validation, \"Remember Me\" functionality, and token storage.",
+        "details": "1. Create LoginScreen widget in lib/presentation/screens/\n2. Implement form with TextFormField widgets for:\n   - Email input\n   - Password input (masked)\n3. Add \"Remember Me\" checkbox\n4. Implement login button\n5. Add \"Register\" text button for navigation\n6. Connect form submission to AuthRepository\n7. Implement token storage based on \"Remember Me\" selection:\n   - If checked: store refreshToken permanently\n   - If unchecked: store refreshToken for session only\n8. Handle login success/failure with appropriate user feedback\n9. Ensure responsive layout for all screen sizes",
+        "testStrategy": "1. Unit test login form validation\n2. Test token storage with different \"Remember Me\" states\n3. Verify error handling for invalid credentials\n4. Test navigation to registration page\n5. Verify responsive layout on different screen sizes",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Main Page Implementation",
+        "description": "Create the main page with header, settings button, and authentication verification.",
+        "details": "1. Create MainScreen widget in lib/presentation/screens/\n2. Implement AppBar with:\n   - App title/logo\n   - Settings icon button (placeholder for future functionality)\n3. Create empty page body as per requirements\n4. Connect with authProvider to verify authentication status\n5. Implement auto-redirect to login page for unauthenticated users\n6. Ensure responsive layout for all screen sizes\n7. Create reusable AppBar component for consistency across future pages",
+        "testStrategy": "1. Test authentication verification\n2. Verify redirect to login for unauthenticated users\n3. Test AppBar rendering and placeholder settings button\n4. Verify responsive layout on different screen sizes",
+        "priority": "medium",
+        "dependencies": [
+          3,
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Auto-Login Implementation",
+        "description": "Implement auto-login functionality using stored refresh tokens to maintain user sessions.",
+        "details": "1. Create an AutoLoginService in lib/domain/services/\n2. On app startup, check for stored refreshToken\n3. If token exists, call the refresh token API endpoint\n4. On successful token refresh:\n   - Update stored accessToken\n   - Set authentication state to logged in\n   - Navigate to main page\n5. On failure:\n   - Clear stored tokens\n   - Navigate to login page\n6. Implement this logic in the app initialization flow\n7. Add loading indicator during auto-login process",
+        "testStrategy": "1. Test auto-login with valid stored refresh token\n2. Test auto-login with expired refresh token\n3. Verify token refresh and storage\n4. Test navigation after auto-login success/failure",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3,
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Error Handling and User Feedback",
+        "description": "Implement consistent error handling and user feedback mechanisms throughout the application.",
+        "details": "1. Create ErrorHandler service in lib/core/services/\n2. Implement standardized error messages for common API errors:\n   - 400: Bad Request\n   - 401: Unauthorized\n   - 403: Forbidden\n   - 404: Not Found\n   - 409: Conflict\n   - 500: Server Error\n3. Create reusable UI components for error feedback:\n   - ErrorSnackBar\n   - ErrorDialog\n4. Implement loading indicators for async operations:\n   - LoadingOverlay\n   - ButtonLoadingIndicator\n5. Connect API error responses to appropriate UI feedback\n6. Ensure all user actions provide appropriate feedback",
+        "testStrategy": "1. Test error handling for different API error codes\n2. Verify appropriate UI feedback for each error type\n3. Test loading indicators during async operations\n4. Verify error messages are user-friendly and actionable",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          5,
+          6,
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Responsive UI Implementation",
+        "description": "Ensure consistent responsive design across all application screens for both mobile and web platforms.",
+        "details": "1. Create ResponsiveBuilder widget in lib/core/widgets/\n2. Implement ScreenUtil or similar utility for responsive sizing\n3. Define breakpoints for different device sizes:\n   - Mobile: < 600px\n   - Tablet: 600px - 1200px\n   - Desktop: > 1200px\n4. Create responsive layouts for all screens:\n   - Use LayoutBuilder and MediaQuery\n   - Implement different layouts based on screen width\n   - Ensure form fields and buttons scale appropriately\n5. Test and adjust UI elements for all target platforms\n6. Create platform-specific adjustments where necessary\n7. Implement responsive typography and spacing",
+        "testStrategy": "1. Test all screens on various device sizes and orientations\n2. Verify UI elements scale and reposition correctly\n3. Test on actual iOS and Android devices\n4. Test on web browsers with different window sizes\n5. Verify consistent user experience across all platforms",
+        "priority": "high",
+        "dependencies": [
+          5,
+          6,
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-20T12:51:01.944Z",
+      "updated": "2025-07-20T15:13:37.388Z",
+      "description": "Tasks for master context"
+    }
+  }
+}
