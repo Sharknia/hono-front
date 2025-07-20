@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             CircularProgressIndicator(),
             SizedBox(height: 20),
-            Text('Hotdeal Tuum'),
+            Text('핫딜 틈'),
           ],
         ),
       ),

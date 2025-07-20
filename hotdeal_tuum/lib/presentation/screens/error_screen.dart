@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hotdeal_tuum/routes/route_names.dart';
 
 class ErrorScreen extends StatelessWidget {
   final String? error;
@@ -8,16 +9,16 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Error')),
+      appBar: AppBar(title: const Text('오류')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(error ?? 'Page not found'),
+            Text(error ?? '페이지를 찾을 수 없습니다.'),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => context.go('/'),
-              child: const Text('Go to Home'),
+              onPressed: () => context.goNamed(AppRouteNames.home),
+              child: const Text('홈으로 가기'),
             ),
           ],
         ),
