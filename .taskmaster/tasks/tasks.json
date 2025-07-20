@@ -139,7 +139,61 @@
           2
         ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Riverpod Provider Structure",
+            "description": "Create the basic Riverpod provider structure and configure the ProviderScope at the application root to enable state management throughout the app.",
+            "dependencies": [],
+            "details": "1. Add riverpod dependencies to pubspec.yaml (flutter_riverpod and riverpod_annotation)\n2. Create the provider directory structure at lib/domain/providers/\n3. Create a providers.dart barrel file to export all providers\n4. Wrap the MaterialApp with ProviderScope in main.dart\n5. Set up provider_logger.dart for debugging state changes in development mode",
+            "status": "pending",
+            "testStrategy": "Verify ProviderScope is correctly set up by creating a simple test provider and confirming it can be accessed from different parts of the widget tree."
+          },
+          {
+            "id": 2,
+            "title": "Implement Repository Classes",
+            "description": "Create repository classes that will serve as the interface between data sources and the state management layer, handling API communication and data transformation.",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "1. Create lib/domain/repositories/auth_repository.dart with methods for login, register, logout, and token refresh\n2. Create lib/domain/repositories/user_repository.dart with methods for fetching and updating user data\n3. Implement repository interfaces with abstract classes\n4. Create concrete implementations that will connect to the API client\n5. Add error handling and response mapping to domain models",
+            "status": "pending",
+            "testStrategy": "Unit test repositories with mock API clients to verify correct data transformation and error handling."
+          },
+          {
+            "id": 3,
+            "title": "Implement State Notifiers for Complex State",
+            "description": "Create StateNotifier classes to manage complex state transitions for authentication and user data, with proper state immutability.",
+            "dependencies": [
+              "3.2"
+            ],
+            "details": "1. Create lib/domain/providers/auth/auth_state.dart to define the authentication state data class\n2. Implement lib/domain/providers/auth/auth_notifier.dart with methods for login, register, logout, and checkAuthStatus\n3. Create lib/domain/providers/user/user_state.dart to define the user state data class\n4. Implement lib/domain/providers/user/user_notifier.dart with methods for user data operations\n5. Ensure all state classes are immutable and use copyWith for state updates",
+            "status": "pending",
+            "testStrategy": "Test state transitions by mocking repository responses and verifying the notifier updates state correctly for success and error cases."
+          },
+          {
+            "id": 4,
+            "title": "Create Core Providers",
+            "description": "Implement the core providers for authentication, user information, and token management that will be used throughout the application.",
+            "dependencies": [
+              "3.3"
+            ],
+            "details": "1. Create lib/domain/providers/auth/auth_provider.dart that exposes the AuthNotifier\n2. Implement lib/domain/providers/user/user_provider.dart that depends on authProvider and exposes user information\n3. Create lib/domain/providers/token/token_provider.dart to handle access and refresh tokens\n4. Set up provider dependencies so that changes in auth state properly cascade to dependent providers\n5. Implement token persistence using secure storage",
+            "status": "pending",
+            "testStrategy": "Test provider dependencies by verifying that changes in one provider (e.g., authProvider) correctly trigger updates in dependent providers (e.g., userProvider)."
+          },
+          {
+            "id": 5,
+            "title": "Implement Provider Consumers in UI",
+            "description": "Connect the UI layer to the state management system by implementing provider consumers in key widgets and testing the complete state management flow.",
+            "dependencies": [
+              "3.4"
+            ],
+            "details": "1. Create example widgets that consume the auth and user providers\n2. Implement a loading state handler that shows appropriate UI based on async provider states\n3. Create error handling widgets that display error messages from providers\n4. Set up provider refreshing for operations like pull-to-refresh\n5. Create a test page that demonstrates the complete state management flow",
+            "status": "pending",
+            "testStrategy": "Integration test the complete state flow from UI interaction through providers to repositories and back, verifying UI updates correctly based on state changes."
+          }
+        ]
       },
       {
         "id": 4,
