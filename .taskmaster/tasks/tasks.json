@@ -99,7 +99,7 @@
               "2.2"
             ],
             "details": "1. Create AuthInterceptor class in lib/data/api/interceptors/\n2. Implement request interceptor to add Authorization header with access token\n3. Implement response interceptor to handle 401 Unauthorized errors:\n   - Catch 401 responses\n   - Attempt to refresh token using the refresh endpoint\n   - Retry the original request with new access token\n   - Handle refresh token failure (clear tokens and trigger logout)\n4. Integrate TokenStorageService to retrieve and update tokens\n5. Add error standardization to convert various error responses to a consistent format",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "1. Test adding Authorization headers to requests\n2. Test token refresh flow with expired tokens\n3. Verify proper error handling for different HTTP status codes\n4. Test retry mechanism after successful token refresh"
           },
           {
@@ -245,7 +245,7 @@
     ],
     "metadata": {
       "created": "2025-07-20T12:51:01.944Z",
-      "updated": "2025-07-20T13:46:58.405Z",
+      "updated": "2025-07-20T14:05:25.631Z",
       "description": "Tasks for master context"
     }
   }
