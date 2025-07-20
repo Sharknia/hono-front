@@ -206,7 +206,65 @@
           3
         ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up GoRouter configuration",
+            "description": "Create the router configuration file and define the basic router setup with route paths for all required pages.",
+            "dependencies": [],
+            "details": "Create a router_config.dart file in lib/routes/ directory. Set up GoRouter with initial routes for login, register, and main page. Define a routes list with GoRoute objects for each path. Include route names for easier reference. Set up error handling for unknown routes. Implement the RouterNotifier class that will later be used for authentication-based redirects.",
+            "status": "pending",
+            "testStrategy": "Verify router initialization with basic routes. Test navigation to each defined route using route names and paths."
+          },
+          {
+            "id": 2,
+            "title": "Implement AuthGuard middleware",
+            "description": "Create an authentication guard mechanism that checks for valid tokens and controls access to protected routes.",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Create an auth_guard.dart file in lib/routes/ directory. Implement a redirect logic in the RouterNotifier that checks authentication state using the authProvider from Riverpod. Add logic to redirect unauthenticated users to the login page when they try to access protected routes. Implement logic to prevent authenticated users from accessing login/register pages. Connect the RouterNotifier to the GoRouter configuration created in the previous subtask.",
+            "status": "pending",
+            "testStrategy": "Test redirects with various authentication states. Verify unauthenticated users are redirected to login. Verify authenticated users can access protected routes and are prevented from accessing login/register pages."
+          },
+          {
+            "id": 3,
+            "title": "Create NavigationService",
+            "description": "Implement a service for programmatic navigation throughout the application.",
+            "dependencies": [
+              "4.1",
+              "4.2"
+            ],
+            "details": "Create a navigation_service.dart file in lib/routes/ directory. Implement methods for common navigation actions: navigateTo(routeName), navigateToWithParams(routeName, params), goBack(), popUntil(routeName), etc. Create a Riverpod provider for the NavigationService to make it accessible throughout the app. Ensure the service uses the GoRouter instance for all navigation operations.",
+            "status": "pending",
+            "testStrategy": "Test each navigation method with various scenarios. Verify navigation history is maintained correctly. Test navigation with and without parameters."
+          },
+          {
+            "id": 4,
+            "title": "Implement route transitions and animations",
+            "description": "Add smooth transitions between routes and implement custom page transitions for different navigation scenarios.",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Create a transitions.dart file in lib/routes/ directory. Implement custom page transitions (slide, fade, etc.) for different route types. Update the GoRouter configuration to use these custom transitions. Add transition duration settings. Implement different transitions for modal routes vs regular page navigation. Ensure transitions work correctly on all platforms (iOS, Android, Web).",
+            "status": "pending",
+            "testStrategy": "Visually verify transitions between different routes. Test transition behavior on different platforms. Verify transition timing and animations match design specifications."
+          },
+          {
+            "id": 5,
+            "title": "Implement deep linking support",
+            "description": "Add support for deep linking to allow the app to handle external URLs and open specific pages.",
+            "dependencies": [
+              "4.1",
+              "4.2",
+              "4.3",
+              "4.4"
+            ],
+            "details": "Update AndroidManifest.xml and Info.plist to handle custom URL schemes. Configure web platform for deep linking in index.html. Create a deep_link_handler.dart in lib/routes/ to parse incoming links. Update the GoRouter configuration to handle deep link paths. Implement logic to process deep links based on authentication state (redirect to login if needed for protected routes). Test deep linking with various URL formats.",
+            "status": "pending",
+            "testStrategy": "Test deep linking from external sources on all platforms. Verify authentication state is respected when handling deep links. Test deep links to protected and public routes. Verify URL parameters are correctly parsed and passed to routes."
+          }
+        ]
       },
       {
         "id": 5,
