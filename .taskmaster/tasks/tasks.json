@@ -69,7 +69,64 @@
           1
         ],
         "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement Token Storage Service",
+            "description": "Create a secure token storage service using flutter_secure_storage to manage authentication tokens.",
+            "dependencies": [],
+            "details": "1. Create a TokenStorageService class in lib/data/services/token_storage_service.dart\n2. Implement methods for token management:\n   - saveTokens(String accessToken, String refreshToken, bool rememberMe)\n   - getAccessToken()\n   - getRefreshToken()\n   - clearTokens()\n   - isRememberMeEnabled()\n3. Use flutter_secure_storage for secure storage\n4. Implement logic to handle the rememberMe flag:\n   - If true, store tokens persistently\n   - If false, use in-memory storage or session-only storage\n5. Add proper error handling for storage operations",
+            "status": "in-progress",
+            "testStrategy": "1. Unit test each method with mock storage\n2. Test token saving and retrieval functionality\n3. Verify proper handling of the rememberMe flag\n4. Test error handling for storage failures"
+          },
+          {
+            "id": 2,
+            "title": "Create API Client with Base Configuration",
+            "description": "Implement a centralized Dio-based API client with base URL, timeout settings, and response type configuration.",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "1. Create ApiClient class in lib/data/api/api_client.dart\n2. Configure Dio instance with:\n   - Base URL from environment configuration\n   - Connection timeout (30 seconds)\n   - Receive timeout (30 seconds)\n   - Default headers (Content-Type: application/json)\n3. Implement singleton pattern for the API client\n4. Create a method to get the configured Dio instance\n5. Add logging for debug environments\n6. Create base response models for standardized API responses",
+            "status": "pending",
+            "testStrategy": "1. Unit test client configuration\n2. Verify timeout settings are applied correctly\n3. Test singleton implementation\n4. Verify proper logging in debug mode"
+          },
+          {
+            "id": 3,
+            "title": "Implement Authentication Interceptors",
+            "description": "Create interceptors for handling authentication headers and token refresh logic.",
+            "dependencies": [
+              "2.1",
+              "2.2"
+            ],
+            "details": "1. Create AuthInterceptor class in lib/data/api/interceptors/\n2. Implement request interceptor to add Authorization header with access token\n3. Implement response interceptor to handle 401 Unauthorized errors:\n   - Catch 401 responses\n   - Attempt to refresh token using the refresh endpoint\n   - Retry the original request with new access token\n   - Handle refresh token failure (clear tokens and trigger logout)\n4. Integrate TokenStorageService to retrieve and update tokens\n5. Add error standardization to convert various error responses to a consistent format",
+            "status": "pending",
+            "testStrategy": "1. Test adding Authorization headers to requests\n2. Test token refresh flow with expired tokens\n3. Verify proper error handling for different HTTP status codes\n4. Test retry mechanism after successful token refresh"
+          },
+          {
+            "id": 4,
+            "title": "Implement Authentication API Endpoints",
+            "description": "Create API service for authentication-related endpoints including register, login, refresh, and logout.",
+            "dependencies": [
+              "2.2",
+              "2.3"
+            ],
+            "details": "1. Create AuthApi class in lib/data/api/services/auth_api.dart\n2. Implement the following endpoints:\n   - register(String email, String password, String nickname)\n   - login(String email, String password, bool rememberMe)\n   - refreshToken(String refreshToken)\n   - logout()\n3. Create request and response models for each endpoint in lib/data/models/\n4. Implement proper error handling for each API call\n5. Connect with TokenStorageService to manage tokens after successful operations\n6. Add documentation for each method",
+            "status": "pending",
+            "testStrategy": "1. Unit test each API endpoint with mock responses\n2. Test error handling for various error scenarios\n3. Verify proper token storage after login and refresh\n4. Test token clearing after logout"
+          },
+          {
+            "id": 5,
+            "title": "Implement User API Endpoints",
+            "description": "Create API service for user-related endpoints including profile retrieval and validation checks.",
+            "dependencies": [
+              "2.2",
+              "2.3"
+            ],
+            "details": "1. Create UserApi class in lib/data/api/services/user_api.dart\n2. Implement the following endpoints:\n   - checkNickname(String nickname)\n   - checkEmail(String email)\n   - getMe()\n3. Create request and response models for each endpoint in lib/data/models/\n4. Ensure authenticated endpoints use the configured interceptors\n5. Implement proper error handling and response parsing\n6. Add retry logic for potentially flaky endpoints\n7. Create user model to represent the authenticated user",
+            "status": "pending",
+            "testStrategy": "1. Unit test each API endpoint with mock responses\n2. Test validation endpoints with various inputs\n3. Verify proper user model creation from API responses\n4. Test error handling for different response scenarios"
+          }
+        ]
       },
       {
         "id": 3,
@@ -188,7 +245,7 @@
     ],
     "metadata": {
       "created": "2025-07-20T12:51:01.944Z",
-      "updated": "2025-07-20T13:25:45.057Z",
+      "updated": "2025-07-20T13:30:54.292Z",
       "description": "Tasks for master context"
     }
   }
