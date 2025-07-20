@@ -20,10 +20,8 @@ void main() {
     test('should call checkNickname endpoint and return true for success', () async {
       // Arrange
       const nickname = 'test_nickname';
-      when(mockDio.get('/user/check-nickname', queryParameters: {
-        'nickname': nickname,
-      })).thenAnswer((_) async => Response(
-            requestOptions: RequestOptions(path: '/user/check-nickname'),
+      when(mockDio.get('/users/check/nickname/$nickname')).thenAnswer((_) async => Response(
+            requestOptions: RequestOptions(path: '/users/check/nickname/$nickname'),
             statusCode: 200,
             data: {'isAvailable': true},
           ));
@@ -33,7 +31,7 @@ void main() {
 
       // Assert
       expect(isAvailable, isTrue);
-      verify(mockDio.get('/user/check-nickname', queryParameters: anyNamed('queryParameters'))).called(1);
+      verify(mockDio.get('/users/check/nickname/$nickname')).called(1);
     });
   });
 }

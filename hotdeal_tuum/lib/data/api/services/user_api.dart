@@ -8,8 +8,7 @@ class UserApi {
   Future<bool> checkNickname(String nickname) async {
     try {
       final response = await dio.get(
-        '/user/check-nickname',
-        queryParameters: {'nickname': nickname},
+        '/users/check/nickname/$nickname',
       );
       if (response.statusCode == 200) {
         return response.data['isAvailable'] ?? false;
