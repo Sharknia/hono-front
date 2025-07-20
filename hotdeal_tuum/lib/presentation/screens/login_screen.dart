@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hotdeal_tuum/core/di/providers.dart';
 import 'package:hotdeal_tuum/domain/providers/auth/auth_state.dart';
+import 'package:hotdeal_tuum/routes/route_names.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
@@ -14,7 +15,7 @@ class LoginScreen extends ConsumerWidget {
       next.maybeWhen(
         authenticated: () {
           // Navigate to home on successful authentication
-          context.go('/home');
+          context.goNamed(AppRouteNames.home);
         },
         error: (message) {
           // Show a snackbar on error
