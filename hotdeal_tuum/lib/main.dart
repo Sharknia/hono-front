@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hotdeal_tuum/core/observers/provider_logger.dart';
 import 'package:hotdeal_tuum/core/theme/app_theme.dart';
 import 'package:hotdeal_tuum/routes/app_router.dart';
 
@@ -11,8 +12,9 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
 
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      observers: [ProviderLogger()],
+      child: const MyApp(),
     ),
   );
 }
