@@ -111,7 +111,7 @@
               "2.3"
             ],
             "details": "1. Create AuthApi class in lib/data/api/services/auth_api.dart\n2. Implement the following endpoints:\n   - register(String email, String password, String nickname)\n   - login(String email, String password, bool rememberMe)\n   - refreshToken(String refreshToken)\n   - logout()\n3. Create request and response models for each endpoint in lib/data/models/\n4. Implement proper error handling for each API call\n5. Connect with TokenStorageService to manage tokens after successful operations\n6. Add documentation for each method",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "1. Unit test each API endpoint with mock responses\n2. Test error handling for various error scenarios\n3. Verify proper token storage after login and refresh\n4. Test token clearing after logout"
           },
           {
@@ -245,7 +245,7 @@
     ],
     "metadata": {
       "created": "2025-07-20T12:51:01.944Z",
-      "updated": "2025-07-20T14:05:25.631Z",
+      "updated": "2025-07-20T14:10:43.401Z",
       "description": "Tasks for master context"
     }
   }

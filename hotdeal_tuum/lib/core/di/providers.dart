@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotdeal_tuum/data/api/api_client.dart';
+import 'package:hotdeal_tuum/data/api/services/auth_api.dart';
 import 'package:hotdeal_tuum/data/services/token_storage_service.dart';
 
 // This file will contain all the Riverpod providers for dependency injection.
@@ -19,4 +20,11 @@ final apiClientProvider = Provider<ApiClient>((ref) {
 /// Provider for the Dio instance from ApiClient
 final dioProvider = Provider<Dio>((ref) {
   return ref.watch(apiClientProvider).dio;
+});
+
+/// Provider for the AuthApi service
+final authApiProvider = Provider<AuthApi>((ref) {
+  final dio = ref.watch(dioProvider);
+  final tokenService = ref.watch(tokenStorageServiceProvider);
+  return AuthApi(dio: dio, tokenStorageService: tokenService);
 });
