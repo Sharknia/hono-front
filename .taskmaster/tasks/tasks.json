@@ -205,7 +205,7 @@
         "dependencies": [
           3
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -236,7 +236,7 @@
               "4.2"
             ],
             "details": "Create a navigation_service.dart file in lib/routes/ directory. Implement methods for common navigation actions: navigateTo(routeName), navigateToWithParams(routeName, params), goBack(), popUntil(routeName), etc. Create a Riverpod provider for the NavigationService to make it accessible throughout the app. Ensure the service uses the GoRouter instance for all navigation operations.",
-            "status": "cancelled",
+            "status": "done",
             "testStrategy": "Test each navigation method with various scenarios. Verify navigation history is maintained correctly. Test navigation with and without parameters."
           },
           {
@@ -247,7 +247,7 @@
               "4.1"
             ],
             "details": "Create a transitions.dart file in lib/routes/ directory. Implement custom page transitions (slide, fade, etc.) for different route types. Update the GoRouter configuration to use these custom transitions. Add transition duration settings. Implement different transitions for modal routes vs regular page navigation. Ensure transitions work correctly on all platforms (iOS, Android, Web).",
-            "status": "deferred",
+            "status": "done",
             "testStrategy": "Visually verify transitions between different routes. Test transition behavior on different platforms. Verify transition timing and animations match design specifications."
           },
           {
@@ -261,7 +261,7 @@
               "4.4"
             ],
             "details": "Update AndroidManifest.xml and Info.plist to handle custom URL schemes. Configure web platform for deep linking in index.html. Create a deep_link_handler.dart in lib/routes/ to parse incoming links. Update the GoRouter configuration to handle deep link paths. Implement logic to process deep links based on authentication state (redirect to login if needed for protected routes). Test deep linking with various URL formats.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test deep linking from external sources on all platforms. Verify authentication state is respected when handling deep links. Test deep links to protected and public routes. Verify URL parameters are correctly parsed and passed to routes."
           }
         ]
@@ -357,7 +357,7 @@
     ],
     "metadata": {
       "created": "2025-07-20T12:51:01.944Z",
-      "updated": "2025-07-20T15:12:31.094Z",
+      "updated": "2025-07-20T15:13:37.388Z",
       "description": "Tasks for master context"
     }
   }
