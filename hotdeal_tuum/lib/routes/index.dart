@@ -1,1 +1,1 @@
-export 'routes.dart'; // Example barrel file
+// Barrel file for routes

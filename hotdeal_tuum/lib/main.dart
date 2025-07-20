@@ -8,8 +8,10 @@ import 'package:hotdeal_tuum/routes/app_router.dart';
 Future<void> main() async {
   // Ensure that widgets are initialized
   WidgetsFlutterBinding.ensureInitialized();
-  // Load environment variables
-  await dotenv.load(fileName: ".env");
+  
+  // Load environment variables based on the --dart-define flag
+  const env = String.fromEnvironment('ENV', defaultValue: 'local');
+  await dotenv.load(fileName: env == 'production' ? ".env.production" : ".env");
 
   runApp(
     ProviderScope(

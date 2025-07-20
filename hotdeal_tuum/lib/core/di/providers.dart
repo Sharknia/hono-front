@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hotdeal_tuum/data/api/api_client.dart';
 import 'package:hotdeal_tuum/data/api/services/auth_api.dart';
@@ -8,6 +9,7 @@ import 'package:hotdeal_tuum/domain/providers/auth/auth_notifier.dart';
 import 'package:hotdeal_tuum/domain/providers/auth/auth_state.dart';
 import 'package:hotdeal_tuum/domain/repositories/auth_repository.dart';
 import 'package:hotdeal_tuum/domain/repositories/user_repository.dart';
+import 'package:hotdeal_tuum/routes/router_notifier.dart';
 
 // This file will contain all the Riverpod providers for dependency injection.
 
@@ -56,4 +58,9 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
 final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return AuthNotifier(authRepository: authRepository);
+});
+
+/// Provider for the RouterNotifier
+final routerNotifierProvider = ChangeNotifierProvider<RouterNotifier>((ref) {
+  return RouterNotifier(ref);
 });

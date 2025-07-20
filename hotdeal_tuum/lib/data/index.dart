@@ -1,1 +1,1 @@
-export 'data.dart'; // Example barrel file
+// Barrel file for data

@@ -1,1 +1,1 @@
-export 'domain.dart'; // Example barrel file
+// Barrel file for domain

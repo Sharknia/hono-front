@@ -1,1 +1,1 @@
-export 'core.dart'; // Example barrel file
+// Barrel file for core
